@@ -58,30 +58,25 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 			GD.PushWarning("Current tile is not selected. Cannot find path.");
 			return;
 		}
+
+		var astarGrid = new AStarGrid2D();
+		astarGrid.Region = GetUsedRect();
+		astarGrid.CellSize = new Vector2(32, 16);
+		astarGrid.DiagonalMode = AStarGrid2D.DiagonalModeEnum.OnlyIfNoObstacles;
+		astarGrid.Update();
+
+		var from = currentTile.Position;
+		var to = LocalToMap(GetLocalMousePosition());
+
+		var idPath = astarGrid.GetIdPath(from, to);
 		
-		GD.Print("Calculating path...");
-		
-		var mapClickCoords = LocalToMap(GetLocalMousePosition());
-		var pathfinder = new AStar2D();
-
-		var usedCells = GetUsedCells(0)
-			.Select((cell, index) => new { cell, index })
-			.ToList();
-
-		var currentCellId = usedCells.First(cell =>
-			cell.cell.Y == currentTile.Position.Y && cell.cell.X == currentTile.Position.X).index;
-
-		var destinationCellId = usedCells.First(cell =>
-			cell.cell.Y == mapClickCoords.Y && cell.cell.X == mapClickCoords.X).index;
-
-		usedCells.ForEach(item => pathfinder.AddPoint(item.index, item.cell));
-
-		var path = pathfinder.GetPointPath(currentCellId, destinationCellId);
-		
-		foreach (var vector2 in path)
+		foreach (var vector2I in idPath)
 		{
-			GD.Print(vector2);
+			SetCell(0, vector2I, TileProvider.ManaStarTile.TileTexture.SourceId, 
+				TileProvider.ManaStarTile.TileTexture.AtlasCoords);
 		}
+		
+		
 	}
 
 	private TileTexture GetTileTexture(Vector2I mapCoords)
