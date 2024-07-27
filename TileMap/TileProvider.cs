@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Sandbox;
+namespace Sandbox.TileMap;
 
 public class TileTexture
 {

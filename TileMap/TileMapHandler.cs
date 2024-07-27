@@ -1,43 +1,35 @@
 using System.Linq;
 using Godot;
 
-namespace Sandbox;
+namespace Sandbox.TileMap;
 
-internal sealed class Tile
-{
-	public Vector2I Position { get; }
-	public TileTexture TileTexture { get; }
-
-	public Tile(Vector2I position, TileTexture tileTexture)
-	{
-		Position = position;
-		TileTexture = tileTexture;
-	}
-}
-
-internal sealed partial class TileMapHandler : TileMap
+internal sealed partial class TileMapHandler : Godot.TileMap
 {
 	private Tile currentTile;
 	private Tile previousTile;
 	
-	public override void _Ready()
-		=> GetAllTiles();
+	public override void _Ready() => GetAllTiles();
 	
 	public override void _Input(InputEvent @event)
 	{
-		if (@event is not InputEventMouse || !@event.IsActionPressed(ActionProvider.LEFT_MOUSE_BUTTON)) 
+		if (@event is not InputEventMouseButton)  
 			return;
 		
-		GD.Print("Global: " + (Vector2I)GetLocalMousePosition());
-		GD.Print("Local: " + (Vector2I)ToLocal(GetLocalMousePosition()));
-		GD.Print("Map: " + LocalToMap(GetLocalMousePosition()));
+		PrintMouseDebugInformation();
 		
-		var mapCoords = LocalToMap(GetLocalMousePosition());
-		SelectCell(mapCoords);
+		if (@event.IsActionPressed(ActionProvider.LEFT_MOUSE_BUTTON))
+			SelectCell();
+		
+		if (@event.IsActionPressed(ActionProvider.RIGHT_MOUSE_BUTTON))
+			RemoveTile();
+
+		if (@event.IsAction(ActionProvider.MIDDLE_MOUSE_BUTTON))
+			FindPath();
 	}
 
-	private void SelectCell(Vector2I mapClickCoords)
+	private void SelectCell()
 	{
+		var mapClickCoords = LocalToMap(GetLocalMousePosition());
 		if (previousTile is null)
 		{
 			previousTile = new Tile(mapClickCoords, GetTileTexture(mapClickCoords));
@@ -59,6 +51,39 @@ internal sealed partial class TileMapHandler : TileMap
 		}
 	}
 
+	private void FindPath()
+	{
+		if (currentTile is null)
+		{
+			GD.PushWarning("Current tile is not selected. Cannot find path.");
+			return;
+		}
+		
+		GD.Print("Calculating path...");
+		
+		var mapClickCoords = LocalToMap(GetLocalMousePosition());
+		var pathfinder = new AStar2D();
+
+		var usedCells = GetUsedCells(0)
+			.Select((cell, index) => new { cell, index })
+			.ToList();
+
+		var currentCellId = usedCells.First(cell =>
+			cell.cell.Y == currentTile.Position.Y && cell.cell.X == currentTile.Position.X).index;
+
+		var destinationCellId = usedCells.First(cell =>
+			cell.cell.Y == mapClickCoords.Y && cell.cell.X == mapClickCoords.X).index;
+
+		usedCells.ForEach(item => pathfinder.AddPoint(item.index, item.cell));
+
+		var path = pathfinder.GetPointPath(currentCellId, destinationCellId);
+		
+		foreach (var vector2 in path)
+		{
+			GD.Print(vector2);
+		}
+	}
+
 	private TileTexture GetTileTexture(Vector2I mapCoords)
 	{
 		return new TileTexture
@@ -66,15 +91,25 @@ internal sealed partial class TileMapHandler : TileMap
 			AtlasCoords = GetCellAtlasCoords(0, mapCoords),
 			SourceId = GetCellSourceId(0, mapCoords)
 		};
-	} 
+	}
 
-	private void RemoveTile(Vector2I vector) 
-		=> SetCell(0, vector, 3, new Vector2I(1, 0));
-
+	private void RemoveTile()
+	{
+		var mapCoords = LocalToMap(GetLocalMousePosition());
+		SetCell(0, mapCoords);
+	}
+		
 	private void GetAllTiles()
 	{
 		var layers = Enumerable.Range(0, GetLayersCount()).ToList();
 		layers.ForEach(layer => GD.Print(GetUsedCells(layer)));
+	}
+
+	private void PrintMouseDebugInformation()
+	{
+		GD.Print("Global " + (Vector2I)GetGlobalMousePosition());
+		GD.Print("Local: " + (Vector2I)GetLocalMousePosition());
+		GD.Print("Map: " + LocalToMap(GetLocalMousePosition()));
 	}
 	
 }
