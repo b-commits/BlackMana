@@ -28,7 +28,11 @@ internal sealed partial class TileMapHandler : TileMap
 		if (@event is not InputEventMouse || !@event.IsActionPressed(ActionProvider.LEFT_MOUSE_BUTTON)) 
 			return;
 		
-		var mapCoords = LocalToMap(GetGlobalMousePosition());
+		GD.Print("Global: " + (Vector2I)GetLocalMousePosition());
+		GD.Print("Local: " + (Vector2I)ToLocal(GetLocalMousePosition()));
+		GD.Print("Map: " + LocalToMap(GetLocalMousePosition()));
+		
+		var mapCoords = LocalToMap(GetLocalMousePosition());
 		SelectCell(mapCoords);
 	}
 
