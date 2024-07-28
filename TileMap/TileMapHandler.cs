@@ -10,7 +10,6 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 	private Tile previousTile;
 	private List<Vector2I> path;
 	private AStarGrid2D aStarGrid = new();
-	private Player player = new();
 	
 	public override void _Ready() => GetAllTiles();
 
@@ -56,7 +55,11 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 
 		SetCell(0, currentTile.Position, TileProvider.ManaStarTile.TileTexture.SourceId, 
 			TileProvider.ManaStarTile.TileTexture.AtlasCoords);
-		player.Position = currentTile.Position;
+		
+		var player = GetNode<Player>("Player");
+		
+		
+		player.Position = MapToLocal(currentTile.Position);
 	}
 
 	private void SelectCell()
