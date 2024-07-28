@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
@@ -7,23 +8,31 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 {
 	private Tile currentTile;
 	private Tile previousTile;
+	private List<Vector2I> path;
 	
 	public override void _Ready() => GetAllTiles();
-	
+
+	public override void _Process(double delta)
+	{
+		MoveDownPath();
+		
+		// SetCell powinien odbywac sie tutaj na podstawie currentTile?
+	}
+
 	public override void _Input(InputEvent @event)
 	{
 		if (@event is not InputEventMouseButton)  
 			return;
 		
 		PrintMouseDebugInformation();
-		
+
 		if (@event.IsActionPressed(ActionProvider.LEFT_MOUSE_BUTTON))
 			SelectCell();
 		
 		if (@event.IsActionPressed(ActionProvider.RIGHT_MOUSE_BUTTON))
 			RemoveTile();
 
-		if (@event.IsAction(ActionProvider.MIDDLE_MOUSE_BUTTON))
+		if (@event.IsActionPressed(ActionProvider.MIDDLE_MOUSE_BUTTON))
 			FindPath();
 	}
 
@@ -59,23 +68,36 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 			return;
 		}
 
-		var astarGrid = new AStarGrid2D();
-		astarGrid.Region = GetUsedRect();
-		astarGrid.CellSize = new Vector2(32, 16);
-		astarGrid.DiagonalMode = AStarGrid2D.DiagonalModeEnum.OnlyIfNoObstacles;
-		astarGrid.Update();
+		var aStarGrid = new AStarGrid2D();
+		aStarGrid.Region = GetUsedRect();
+		aStarGrid.CellSize = new Vector2(32, 16);
+		aStarGrid.DiagonalMode = AStarGrid2D.DiagonalModeEnum.OnlyIfNoObstacles;
+		aStarGrid.Update();
 
 		var from = currentTile.Position;
 		var to = LocalToMap(GetLocalMousePosition());
 
-		var idPath = astarGrid.GetIdPath(from, to);
-		
-		foreach (var vector2I in idPath)
+		path = aStarGrid.GetIdPath(from, to).ToList();
+		PrintPathDebugInformation();
+	}
+
+	private void MoveDownPath()
+	{
+		if (path is null || currentTile is null || !path.Any())
+			return;
+
+		if (path.Count > 1)
 		{
-			SetCell(0, vector2I, TileProvider.ManaStarTile.TileTexture.SourceId, 
-				TileProvider.ManaStarTile.TileTexture.AtlasCoords);
+			path.RemoveAt(0);
 		}
+
+		if (path.Count == 0) 
+			return;
 		
+		currentTile.Position = path[0];
+		SetCell(0, currentTile.Position, TileProvider.ManaStarTile.TileTexture.SourceId,
+			TileProvider.ManaStarTile.TileTexture.AtlasCoords);
+		GD.Print($"Tile after iteration: {currentTile.Position}");
 		
 	}
 
@@ -105,6 +127,14 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 		GD.Print("Global " + (Vector2I)GetGlobalMousePosition());
 		GD.Print("Local: " + (Vector2I)GetLocalMousePosition());
 		GD.Print("Map: " + LocalToMap(GetLocalMousePosition()));
+	}
+
+	private void PrintPathDebugInformation()
+	{
+		foreach (var vector2I in path)
+		{
+			GD.PrintRaw($"{vector2I} ");
+		}
 	}
 	
 }

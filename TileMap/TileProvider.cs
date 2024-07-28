@@ -27,7 +27,7 @@ public static class TileProvider
         Name = TileAssetName.MANA_TILE,
         TileTexture = new TileTexture
         {
-            AtlasCoords = new Vector2I(0, 0),
+            AtlasCoords = new Vector2I(1, 0),
             SourceId = 3
         }
     };
