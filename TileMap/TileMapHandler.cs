@@ -9,16 +9,16 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 	private Tile currentTile;
 	private Tile previousTile;
 	private List<Vector2I> path;
+	private AStarGrid2D aStarGrid = new();
+	private Player player = new();
 	
 	public override void _Ready() => GetAllTiles();
 
 	public override void _Process(double delta)
 	{
-		MoveDownPath();
-		
-		// SetCell powinien odbywac sie tutaj na podstawie currentTile?
+		MovePlayer();
 	}
-
+	
 	public override void _Input(InputEvent @event)
 	{
 		if (@event is not InputEventMouseButton)  
@@ -36,69 +36,48 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 			FindPath();
 	}
 
-	private void SelectCell()
+	private void MovePlayer()
 	{
-		var mapClickCoords = LocalToMap(GetLocalMousePosition());
-		if (previousTile is null)
-		{
-			previousTile = new Tile(mapClickCoords, GetTileTexture(mapClickCoords));
-			currentTile = new Tile(mapClickCoords, TileProvider.ManaStarTile.TileTexture);
-			
-			SetCell(0, mapClickCoords, currentTile.TileTexture.SourceId, 
-				currentTile.TileTexture.AtlasCoords);
-		}
-		else
-		{
-			SetCell(0, previousTile.Position, previousTile.TileTexture.SourceId, 
-				previousTile.TileTexture.AtlasCoords);
+		if (currentTile == null)
+			return;
 
-			previousTile = new Tile(mapClickCoords, GetTileTexture(mapClickCoords));
-			currentTile = new Tile(mapClickCoords, TileProvider.ManaStarTile.TileTexture);
-			
-			SetCell(0, currentTile.Position, currentTile.TileTexture.SourceId, 
-				currentTile.TileTexture.AtlasCoords);
+		if (path?.Any() == true)
+		{
+			if (path.Count > 1)
+				path.RemoveAt(0);
+    
+			currentTile.Position = path[0];
 		}
+
+		if (previousTile != null)
+			SetCell(0, previousTile.Position, previousTile.TileTexture.SourceId, previousTile.TileTexture.AtlasCoords);
+
+		previousTile = new Tile(currentTile.Position, GetTileTexture(currentTile.Position));
+
+		SetCell(0, currentTile.Position, TileProvider.ManaStarTile.TileTexture.SourceId, 
+			TileProvider.ManaStarTile.TileTexture.AtlasCoords);
+		player.Position = currentTile.Position;
 	}
 
+	private void SelectCell()
+	{
+		path?.Clear();
+		var mapClickCoords = LocalToMap(GetLocalMousePosition());
+		currentTile = new Tile(mapClickCoords, GetTileTexture(mapClickCoords));
+	}
+	
 	private void FindPath()
 	{
-		if (currentTile is null)
-		{
-			GD.PushWarning("Current tile is not selected. Cannot find path.");
-			return;
-		}
-
-		var aStarGrid = new AStarGrid2D();
 		aStarGrid.Region = GetUsedRect();
-		aStarGrid.CellSize = new Vector2(32, 16);
-		aStarGrid.DiagonalMode = AStarGrid2D.DiagonalModeEnum.OnlyIfNoObstacles;
+		aStarGrid.CellSize = new Vector2(TileSet.TileSize.X, TileSet.TileSize.Y);
 		aStarGrid.Update();
 
 		var from = currentTile.Position;
 		var to = LocalToMap(GetLocalMousePosition());
 
 		path = aStarGrid.GetIdPath(from, to).ToList();
+		
 		PrintPathDebugInformation();
-	}
-
-	private void MoveDownPath()
-	{
-		if (path is null || currentTile is null || !path.Any())
-			return;
-
-		if (path.Count > 1)
-		{
-			path.RemoveAt(0);
-		}
-
-		if (path.Count == 0) 
-			return;
-		
-		currentTile.Position = path[0];
-		SetCell(0, currentTile.Position, TileProvider.ManaStarTile.TileTexture.SourceId,
-			TileProvider.ManaStarTile.TileTexture.AtlasCoords);
-		GD.Print($"Tile after iteration: {currentTile.Position}");
-		
 	}
 
 	private TileTexture GetTileTexture(Vector2I mapCoords)

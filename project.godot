@@ -13,7 +13,7 @@ config_version=5
 config/name="Sandbox"
 run/main_scene="res://TileMap/TileMap.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="res://Player/icon.svg"
 
 [dotnet]
 
