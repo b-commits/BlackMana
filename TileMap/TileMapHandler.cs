@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using Sandbox.Common;
 
 namespace Sandbox.TileMap;
 
@@ -10,8 +11,12 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 	private Tile previousTile;
 	private List<Vector2I> path;
 	private AStarGrid2D aStarGrid = new();
+
 	
-	public override void _Ready() => GetAllTiles();
+	public override void _Ready()
+	{
+		GetAllTiles();
+	}
 
 	public override void _Process(double delta)
 	{
@@ -20,7 +25,7 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 	
 	public override void _Input(InputEvent @event)
 	{
-		if (@event is not InputEventMouseButton)  
+		if (!Helpers.IsMouseClick(@event))  
 			return;
 		
 		PrintMouseDebugInformation();
@@ -58,7 +63,6 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 		
 		var player = GetNode<Player>("Player");
 		
-		
 		player.Position = MapToLocal(currentTile.Position);
 	}
 
@@ -67,6 +71,11 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 		path?.Clear();
 		var mapClickCoords = LocalToMap(GetLocalMousePosition());
 		currentTile = new Tile(mapClickCoords, GetTileTexture(mapClickCoords));
+	}
+
+	private void SelectSprite()
+	{
+		
 	}
 	
 	private void FindPath()

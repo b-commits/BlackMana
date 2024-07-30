@@ -45,11 +45,14 @@ animations = [{
 }]
 
 [node name="Node2D" type="Node2D"]
+position = Vector2(0, 1)
 script = ExtResource("1_wn4ie")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
 texture_filter = 1
+position = Vector2(2.08165e-12, -16)
 sprite_frames = SubResource("SpriteFrames_4xthx")
 animation = &"New Animation"
 autoplay = "New Animation"
-frame_progress = 0.214267
+frame_progress = 0.0424509
