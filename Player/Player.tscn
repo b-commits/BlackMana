@@ -1,23 +1,40 @@
-[gd_scene load_steps=8 format=3 uid="uid://ceefnkk6vcurv"]
+[gd_scene load_steps=13 format=3 uid="uid://ceefnkk6vcurv"]
 
 [ext_resource type="Script" path="res://Player/Player.cs" id="1_wn4ie"]
-[ext_resource type="Texture2D" uid="uid://bupbuuh5alasg" path="res://Player/Character.png" id="2_oepmb"]
+[ext_resource type="Texture2D" uid="uid://bupbuuh5alasg" path="res://Enemy/Character.png" id="2_ijnd3"]
+[ext_resource type="Texture2D" uid="uid://c8oi1ubxdw7xh" path="res://Player/CharacterVariant.png" id="3_8xo13"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c5f6l"]
-atlas = ExtResource("2_oepmb")
+atlas = ExtResource("2_ijnd3")
 region = Rect2(0, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nosam"]
-atlas = ExtResource("2_oepmb")
+atlas = ExtResource("2_ijnd3")
 region = Rect2(32, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o6rjx"]
-atlas = ExtResource("2_oepmb")
+atlas = ExtResource("2_ijnd3")
 region = Rect2(64, 0, 32, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uwwbq"]
-atlas = ExtResource("2_oepmb")
+atlas = ExtResource("2_ijnd3")
 region = Rect2(96, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2pms2"]
+atlas = ExtResource("3_8xo13")
+region = Rect2(32, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ruws6"]
+atlas = ExtResource("3_8xo13")
+region = Rect2(64, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81jmy"]
+atlas = ExtResource("3_8xo13")
+region = Rect2(96, 96, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4wqe"]
+atlas = ExtResource("3_8xo13")
+region = Rect2(0, 96, 32, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_4xthx"]
 animations = [{
@@ -42,6 +59,23 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_2pms2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ruws6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_81jmy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4wqe")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
 }]
 
 [node name="Node2D" type="Node2D"]
@@ -53,6 +87,6 @@ y_sort_enabled = true
 texture_filter = 1
 position = Vector2(2.08165e-12, -16)
 sprite_frames = SubResource("SpriteFrames_4xthx")
-animation = &"New Animation"
-autoplay = "New Animation"
-frame_progress = 0.0424509
+animation = &"new_animation"
+autoplay = "new_animation"
+frame_progress = 0.83501
