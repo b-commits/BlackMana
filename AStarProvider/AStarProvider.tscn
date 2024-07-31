@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bp5y5okvdy35k"]
+
+[ext_resource type="Script" path="res://AStarProvider/AStarProvider.cs" id="1_ws8tf"]
+
+[node name="AStarProvider" type="Node2D"]
+script = ExtResource("1_ws8tf")
