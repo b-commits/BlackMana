@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using Sandbox.Common;
+using Sandbox.Common.AStarGridProvider;
+using Sandbox.Player;
 
 namespace Sandbox.TileMap;
 
@@ -10,11 +12,21 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 	private Tile currentTile;
 	private Tile previousTile;
 	private List<Vector2I> path;
-	private AStarGrid2D aStarGrid = new();
 
-	
+	private readonly IPathFinder _aStarGridProvider;
+	private readonly List<ISelectable> _selectables;
+
+	public TileMapHandler(List<ISelectable> selectables)
+	{
+		_selectables = selectables;
+		_aStarGridProvider = new AStarGridProvider(GetUsedRect(), TileSet.TileSize);
+	}
+
+	public TileMapHandler() { }
+
 	public override void _Ready()
 	{
+		currentTile = new Tile(default, default);
 		GetAllTiles();
 	}
 
@@ -29,15 +41,15 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 			return;
 		
 		PrintMouseDebugInformation();
+		
+		// if (@event.IsActionPressed(ActionProvider.LEFT_MOUSE_BUTTON))
+		// 	SelectCell();
+		//
+		// if (@event.IsActionPressed(ActionProvider.RIGHT_MOUSE_BUTTON))
+		// 	RemoveTile();
 
 		if (@event.IsActionPressed(ActionProvider.LEFT_MOUSE_BUTTON))
-			SelectCell();
-		
-		if (@event.IsActionPressed(ActionProvider.RIGHT_MOUSE_BUTTON))
-			RemoveTile();
-
-		if (@event.IsActionPressed(ActionProvider.MIDDLE_MOUSE_BUTTON))
-			FindPath();
+			path = _aStarGridProvider.GetPath(currentTile.Position, LocalToMap(GetLocalMousePosition()));
 	}
 
 	private void MovePlayer()
@@ -61,9 +73,9 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 		SetCell(0, currentTile.Position, TileProvider.ManaStarTile.TileTexture.SourceId, 
 			TileProvider.ManaStarTile.TileTexture.AtlasCoords);
 		
-		var player = GetNode<Player>("Player");
-		
-		player.Position = MapToLocal(currentTile.Position);
+		var player = GetNode<Player.Player>("Player");
+
+		player.Move((Vector2I)MapToLocal(currentTile.Position));
 	}
 
 	private void SelectCell()
@@ -78,20 +90,6 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 		
 	}
 	
-	private void FindPath()
-	{
-		aStarGrid.Region = GetUsedRect();
-		aStarGrid.CellSize = new Vector2(TileSet.TileSize.X, TileSet.TileSize.Y);
-		aStarGrid.Update();
-
-		var from = currentTile.Position;
-		var to = LocalToMap(GetLocalMousePosition());
-
-		path = aStarGrid.GetIdPath(from, to).ToList();
-		
-		PrintPathDebugInformation();
-	}
-
 	private TileTexture GetTileTexture(Vector2I mapCoords)
 	{
 		return new TileTexture

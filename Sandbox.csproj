@@ -9,9 +9,8 @@
     <Content Include="Premise.md" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AStarProvider\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="AStarProvider\AStarProvider.cs" />
+    <EmbeddedResource Remove="AStarProvider\**" />
   </ItemGroup>
 </Project>
