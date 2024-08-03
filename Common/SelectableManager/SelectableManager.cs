@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Sandbox.Scenes.Player;
+using Sandbox.Common.Interfaces;
 
 namespace Sandbox.Common.SelectableManager;
 

@@ -27,8 +27,8 @@ internal sealed partial class AStarGridPathfinder : Node2D, IPathfinder
 
     public List<Vector2I> GetPath(Vector2I from, Vector2I to)
     {
-        path = aStarGrid.GetIdPath(from, to).ToList();
         PrintPathDebugInformation();
+        path = aStarGrid.GetIdPath(from, to).ToList();
         return path;
     }
     
