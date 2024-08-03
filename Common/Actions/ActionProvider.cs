@@ -1,4 +1,4 @@
-namespace Sandbox;
+namespace Sandbox.Common.Actions;
 
 internal static class ActionProvider
 {

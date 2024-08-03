@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8oi1ubxdw7xh"
-path="res://.godot/imported/CharacterVariant.png-8bd63094d055d230fedf8e791fc9d578.ctex"
+uid="uid://c4als2bm0i8p8"
+path="res://.godot/imported/Character.png-2dc359180170383896f9dd59b056471c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/CharacterVariant.png"
-dest_files=["res://.godot/imported/CharacterVariant.png-8bd63094d055d230fedf8e791fc9d578.ctex"]
+source_file="res://Scenes/TileMap/Character.png"
+dest_files=["res://.godot/imported/Character.png-2dc359180170383896f9dd59b056471c.ctex"]
 
 [params]
 

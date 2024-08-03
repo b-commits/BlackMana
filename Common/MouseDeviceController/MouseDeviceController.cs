@@ -1,8 +1,8 @@
 using Godot;
 
-namespace Sandbox.Common;
+namespace Sandbox.Common.MouseDeviceController;
 
-public static class Helpers
+internal static class MouseDeviceController
 {
     public static bool IsMouseClick(InputEvent inputEvent)  =>
         inputEvent is InputEventMouseButton && inputEvent.IsPressed();
