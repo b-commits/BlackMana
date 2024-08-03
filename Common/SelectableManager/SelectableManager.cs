@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Sandbox.Player;
+using Sandbox.Scenes.Player;
 
-namespace Sandbox.Common;
+namespace Sandbox.Common.SelectableManager;
 
 internal interface ISelectableManager<T> where T : class, ISelectable
 {

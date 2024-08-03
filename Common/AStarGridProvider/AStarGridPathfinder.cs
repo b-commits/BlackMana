@@ -4,18 +4,18 @@ using Godot;
 
 namespace Sandbox.Common.AStarGridProvider;
 
-internal interface IPathFinder
+internal interface IPathfinder
 {
     List<Vector2I> GetPath(Vector2I from, Vector2I to);
 }
 
-internal sealed partial class AStarGridProvider : Node2D, IPathFinder
+internal sealed partial class AStarGridPathfinder : Node2D, IPathfinder
 {
     private readonly AStarGrid2D aStarGrid = new();
     private List<Vector2I> path;
     [Export] private AStarGrid2D.DiagonalModeEnum _diagonalModeEnum;
     
-    public AStarGridProvider(Rect2I rect, Vector2I tileSize)
+    public AStarGridPathfinder(Rect2I rect, Vector2I tileSize)
     {
         aStarGrid.Region = rect;
         aStarGrid.DiagonalMode = _diagonalModeEnum;
@@ -23,12 +23,16 @@ internal sealed partial class AStarGridProvider : Node2D, IPathFinder
         aStarGrid.Update();
     }
 
-    public AStarGridProvider() { }
+    public AStarGridPathfinder() { }
 
     public List<Vector2I> GetPath(Vector2I from, Vector2I to)
     {
-        GD.Print($"Getting path from {from} to {to}.");
         path = aStarGrid.GetIdPath(from, to).ToList();
+        PrintPathDebugInformation();
         return path;
     }
+    
+    private void PrintPathDebugInformation()
+        => path.ForEach(vector => GD.PrintRaw($"{vector}"));
+    
 }

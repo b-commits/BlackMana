@@ -1,5 +1,6 @@
 using Godot;
-using Sandbox;
+
+namespace Sandbox.Scenes.TileMap;
 
 public partial class Camera : Camera2D
 {

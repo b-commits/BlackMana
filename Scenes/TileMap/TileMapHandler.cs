@@ -1,10 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Sandbox.Common;
+using Sandbox.Common.Actions;
 using Sandbox.Common.AStarGridProvider;
+using Sandbox.Common.MouseDeviceController;
+using Sandbox.Common.SelectableManager;
 
-namespace Sandbox.TileMap;
+namespace Sandbox.Scenes.TileMap;
 
 internal sealed partial class TileMapHandler : Godot.TileMap
 {
@@ -12,13 +14,13 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 	private Tile previousTile;
 	private List<Vector2I> path;
 
-	private readonly IPathFinder _aStarGridProvider;
-	private readonly ISelectableManager<Player.Player> _selectableManager;
+	private readonly IPathfinder _aStarGridProvider;
+	private readonly ISelectableManager<Scenes.Player.Player> _selectableManager;
 
-	public TileMapHandler(List<Player.Player> players)
+	public TileMapHandler(List<Scenes.Player.Player> players)
 	{
-		_selectableManager = new SelectableManager<Player.Player>(players);
-		_aStarGridProvider = new AStarGridProvider(GetUsedRect(), TileSet.TileSize);
+		_selectableManager = new SelectableManager<Scenes.Player.Player>(players);
+		_aStarGridProvider = new AStarGridPathfinder(GetUsedRect(), TileSet.TileSize);
 	}
 	
 	public TileMapHandler() { }
@@ -36,7 +38,7 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 	
 	public override void _Input(InputEvent @event)
 	{
-		if (!Helpers.IsMouseClick(@event))  
+		if (MouseDeviceController.IsMouseClick(@event))  
 			return;
 		
 		PrintMouseDebugInformation();
@@ -72,9 +74,16 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 		SetCell(0, currentTile.Position, TileProvider.ManaStarTile.TileTexture.SourceId, 
 			TileProvider.ManaStarTile.TileTexture.AtlasCoords);
 		
-		var player = GetNode<Player.Player>("Player");
+		var player = GetNode<Scenes.Player.Player>("Player");
 
 		player.Move((Vector2I)MapToLocal(currentTile.Position));
+	}
+
+	private void ResetCellTexture()
+	{
+		var selectablePosition = _selectableManager.GetActive().Position;
+		var cellTileData = GetTileTexture(selectablePosition);
+		
 	}
 
 	private void SelectCell(Vector2I mapCoords)
@@ -83,7 +92,7 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 			_selectableManager.SelectByCoords(mapCoords);
 
 		if (!CellHasSelectable(mapCoords) && _selectableManager.HasActive()) 
-			_selectableManager.GetActive().Move(_aStarGridProvider.GetPath(currentTile.Position, mapCoords));
+			_selectableManager.GetActive().SetPath(_aStarGridProvider.GetPath(currentTile.Position, mapCoords));
 	}
 
 	private bool CellHasSelectable(Vector2I mapCoords)
@@ -113,14 +122,6 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 		GD.Print("Global " + (Vector2I)GetGlobalMousePosition());
 		GD.Print("Local: " + (Vector2I)GetLocalMousePosition());
 		GD.Print("Map: " + LocalToMap(GetLocalMousePosition()));
-	}
-
-	private void PrintPathDebugInformation()
-	{
-		foreach (var vector2I in path)
-		{
-			GD.PrintRaw($"{vector2I} ");
-		}
 	}
 	
 }
