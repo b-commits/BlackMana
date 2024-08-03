@@ -14,7 +14,7 @@ internal interface ISelectableManager<T> where T : class, ISelectable
 }
 
 internal sealed class SelectableManager<T> : ISelectableManager<T>
-    where T : class, ISelectable
+    where T : Node2D, ISelectable
 {
     private readonly List<T> selectables;
 
@@ -24,7 +24,7 @@ internal sealed class SelectableManager<T> : ISelectableManager<T>
     }
 
     public T SelectByCoords(Vector2I mapCoords)
-        => selectables.SingleOrDefault(x => x.MovablePosition == mapCoords);
+        => selectables.SingleOrDefault(x => x.Position == mapCoords);
 
     public T GetActive()
         => selectables.SingleOrDefault(x => x.Selected);

@@ -30,33 +30,35 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 	{
 		if (!MouseDeviceController.IsMouseClick(@event))  
 			return;
-		
+
 		if (@event.IsActionPressed(ActionProvider.LEFT_MOUSE_BUTTON))
 			SelectCell(LocalToMap(GetLocalMousePosition()));
 	}
 
 	private void SelectCell(Vector2I mapCoords)
 	{
+		PrintMouseDebugInformation();
+		
 		if (CellHasSelectable(mapCoords) && !_selectableManager.HasActive())
 			_selectableManager.SelectByCoords(mapCoords);
 
 		if (!CellHasSelectable(mapCoords) && _selectableManager.HasActive())
 		{
 			var activeSelectable = _selectableManager.GetActive();
-			var path = _aStarGridProvider.GetPath(LocalToMap(activeSelectable.Position), mapCoords);
+			var mapActiveSelectablePos = LocalToMap(activeSelectable.Position);
+			var path = _aStarGridProvider.GetPath(mapActiveSelectablePos, mapCoords);
 			var localPath = path.Select(x => (Vector2I)MapToLocal(x)).ToList();
+			activeSelectable.Position = localPath[^1];
 			activeSelectable.SetPath(localPath);
 		}
 	}
 
 	private bool CellHasSelectable(Vector2I mapCoords)
-		=> _selectableManager.SelectByCoords(mapCoords) is not null;
+		=> _selectableManager.SelectByCoords((Vector2I)MapToLocal(mapCoords)) is not null;
 	
 	private void RemoveTile()
-	{
-		var mapCoords = LocalToMap(GetLocalMousePosition());
-		SetCell(0, mapCoords);
-	}
+		=> SetCell(0, LocalToMap(GetLocalMousePosition()));
+	
 		
 	private void GetAllTiles()
 	{

@@ -1,11 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://dl06w3s4r0tkw"]
+[gd_scene load_steps=10 format=3 uid="uid://dl06w3s4r0tkw"]
 
 [ext_resource type="Texture2D" uid="uid://4m7g7lkvhv56" path="res://Scenes/TileMap/Sprite-0002.png" id="1_vqk2o"]
 [ext_resource type="Texture2D" uid="uid://cl3u6pi2mbvnq" path="res://TileSheet.png" id="2_hdd8w"]
 [ext_resource type="Script" path="res://Scenes/TileMap/TileMapHandler.cs" id="3_gqx11"]
 [ext_resource type="PackedScene" uid="uid://ceefnkk6vcurv" path="res://Scenes/Player/Player.tscn" id="4_lr3yg"]
 [ext_resource type="Script" path="res://Scenes/TileMap/Camera.cs" id="5_5r04t"]
-[ext_resource type="PackedScene" uid="uid://ct5ajt2ckgc0k" path="res://Enemy/Enemy.tscn" id="6_pdbgu"]
+[ext_resource type="PackedScene" uid="uid://ct5ajt2ckgc0k" path="res://Scenes/Enemy/Enemy.tscn" id="6_pdbgu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2alp8"]
 resource_name = "ManaTileAnimation"
@@ -45,14 +45,6 @@ tile_size = Vector2i(32, 16)
 sources/3 = SubResource("TileSetAtlasSource_p3emi")
 sources/1 = SubResource("TileSetAtlasSource_2alp8")
 
-[sub_resource type="Animation" id="Animation_4leka"]
-resource_name = "SelectedTileAnimation"
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_idt05"]
-_data = {
-"SelectedTileAnimation": SubResource("Animation_4leka")
-}
-
 [node name="TileMap" type="TileMap"]
 y_sort_enabled = true
 texture_filter = 1
@@ -70,11 +62,6 @@ layer_2/y_sort_enabled = true
 layer_2/z_index = 2
 layer_2/tile_data = PackedInt32Array()
 script = ExtResource("3_gqx11")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_idt05")
-}
 
 [node name="Player" parent="." instance=ExtResource("4_lr3yg")]
 z_index = 5
