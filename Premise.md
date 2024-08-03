@@ -27,7 +27,12 @@ Isometric 2D narrative-heavy game inspired by DE with occasional turn and grid b
   - When a player is select, outline variant appears
   - Sets the active selectable
   - From now on, every mouse click on the grid affects the active selectable
-- [ ] **BM-3**: Differentiate between an enemy and an ally
+- [ ] **BM-3**: Change the hue of a tile on hover, so that it is easier to
+determine what the affected selectable is
+  - Tile hue should be changed programatically to avoid having to add 
+too many alternative textures 
 - [ ] **BM-4**: 
 - [ ] **BM-5**: 
 - [ ] **BM-6**: 
+
+
