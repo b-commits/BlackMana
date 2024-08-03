@@ -20,9 +20,10 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 
 	public override void _Ready()
 	{
-		var playerNode = GetNode<Player.Player>("Player");
-		playerNode.Selected = true;
-		var characters = new List<Player.Player> { playerNode };
+		var player1 = GetNode<Player.Player>("Player");
+		var player2 = GetNode<Player.Player>("Player2");
+		player1.Selected = true;
+		var characters = new List<Player.Player> { player1, player2 };
 		_selectableManager = new SelectableManager<Player.Player>(characters);
 	}
 	
@@ -37,19 +38,15 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 
 	private void SelectCell(Vector2I mapCoords)
 	{
-		PrintMouseDebugInformation();
 		
 		if (CellHasSelectable(mapCoords) && !_selectableManager.HasActive())
 			_selectableManager.SelectByCoords(mapCoords);
 
 		if (!CellHasSelectable(mapCoords) && _selectableManager.HasActive())
 		{
-			var activeSelectable = _selectableManager.GetActive();
-			var mapActiveSelectablePos = LocalToMap(activeSelectable.Position);
-			var path = _aStarGridProvider.GetPath(mapActiveSelectablePos, mapCoords);
+			var path = _aStarGridProvider.GetPath(LocalToMap(_selectableManager.GetActive().Position), mapCoords);
 			var localPath = path.Select(x => (Vector2I)MapToLocal(x)).ToList();
-			activeSelectable.Position = localPath[^1];
-			activeSelectable.SetPath(localPath);
+			_selectableManager.GetActive().SetPath(localPath);
 		}
 	}
 
