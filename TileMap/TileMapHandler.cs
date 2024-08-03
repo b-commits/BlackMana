@@ -3,7 +3,6 @@ using System.Linq;
 using Godot;
 using Sandbox.Common;
 using Sandbox.Common.AStarGridProvider;
-using Sandbox.Player;
 
 namespace Sandbox.TileMap;
 
@@ -14,14 +13,14 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 	private List<Vector2I> path;
 
 	private readonly IPathFinder _aStarGridProvider;
-	private readonly List<ISelectable> _selectables;
+	private readonly ISelectableManager<Player.Player> _selectableManager;
 
-	public TileMapHandler(List<ISelectable> selectables)
+	public TileMapHandler(List<Player.Player> players)
 	{
-		_selectables = selectables;
+		_selectableManager = new SelectableManager<Player.Player>(players);
 		_aStarGridProvider = new AStarGridProvider(GetUsedRect(), TileSet.TileSize);
 	}
-
+	
 	public TileMapHandler() { }
 
 	public override void _Ready()
@@ -49,7 +48,7 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 		// 	RemoveTile();
 
 		if (@event.IsActionPressed(ActionProvider.LEFT_MOUSE_BUTTON))
-			path = _aStarGridProvider.GetPath(currentTile.Position, LocalToMap(GetLocalMousePosition()));
+			SelectCell(LocalToMap(GetLocalMousePosition()));
 	}
 
 	private void MovePlayer()
@@ -78,26 +77,24 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 		player.Move((Vector2I)MapToLocal(currentTile.Position));
 	}
 
-	private void SelectCell()
+	private void SelectCell(Vector2I mapCoords)
 	{
-		path?.Clear();
-		var mapClickCoords = LocalToMap(GetLocalMousePosition());
-		currentTile = new Tile(mapClickCoords, GetTileTexture(mapClickCoords));
+		if (CellHasSelectable(mapCoords) && !_selectableManager.HasActive())
+			_selectableManager.SelectByCoords(mapCoords);
+
+		if (!CellHasSelectable(mapCoords) && _selectableManager.HasActive()) 
+			_selectableManager.GetActive().Move(_aStarGridProvider.GetPath(currentTile.Position, mapCoords));
 	}
 
-	private void SelectSprite()
-	{
-		
-	}
+	private bool CellHasSelectable(Vector2I mapCoords)
+		=> _selectableManager.SelectByCoords(mapCoords) is not null;
 	
-	private TileTexture GetTileTexture(Vector2I mapCoords)
-	{
-		return new TileTexture
+	private TileTexture GetTileTexture(Vector2I mapCoords) 
+		=> new() 
 		{
 			AtlasCoords = GetCellAtlasCoords(0, mapCoords),
 			SourceId = GetCellSourceId(0, mapCoords)
 		};
-	}
 
 	private void RemoveTile()
 	{
