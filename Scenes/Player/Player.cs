@@ -8,7 +8,7 @@ namespace Sandbox.Scenes.Player;
 
 internal sealed partial class Player : AnimatedSprite2D, IMovable, ISelectable
 {
-	private List<Vector2I> path;
+	private List<Vector2I> path = new();
 
 	public override void _Process(double delta)
 	{
@@ -17,7 +17,7 @@ internal sealed partial class Player : AnimatedSprite2D, IMovable, ISelectable
 
 	public void Move(Vector2I mapCoords)
 	{
-		Position = mapCoords;
+		Position = MovablePosition;
 	}
 	
 	private void MoveByPath()
@@ -36,5 +36,5 @@ internal sealed partial class Player : AnimatedSprite2D, IMovable, ISelectable
 	}
 
 	public bool Selected { get; set; }
-	public Vector2I Position { get; set; }
+	public Vector2I MovablePosition { get; set; }
 }

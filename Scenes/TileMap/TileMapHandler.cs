@@ -20,8 +20,10 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 
 	public override void _Ready()
 	{
-		var characters = new List<Node2D> { GetNode<Node2D>("Player") };
-		_selectableManager = new SelectableManager<Player.Player>(null);
+		var playerNode = GetNode<Player.Player>("Player");
+		playerNode.Selected = true;
+		var characters = new List<Player.Player> { playerNode };
+		_selectableManager = new SelectableManager<Player.Player>(characters);
 	}
 	
 	public override void _Input(InputEvent @event)
@@ -41,7 +43,9 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 		if (!CellHasSelectable(mapCoords) && _selectableManager.HasActive())
 		{
 			var activeSelectable = _selectableManager.GetActive();
-			activeSelectable.SetPath(_aStarGridProvider.GetPath(activeSelectable.Position, mapCoords));
+			var path = _aStarGridProvider.GetPath(LocalToMap(activeSelectable.Position), mapCoords);
+			var localPath = path.Select(x => (Vector2I)MapToLocal(x)).ToList();
+			activeSelectable.SetPath(localPath);
 		}
 	}
 

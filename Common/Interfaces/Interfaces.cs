@@ -8,7 +8,7 @@ internal interface ISelectable
 {
     void OnSelect(Action action);
     public bool Selected { get; set; }
-    public Vector2I Position { get; set; }
+    public Vector2I MovablePosition { get; set; }
 }
 
 internal interface IMovable

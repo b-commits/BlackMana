@@ -31,8 +31,9 @@ internal sealed partial class AStarGridPathfinder : Node2D, IPathfinder
         path = aStarGrid.GetIdPath(from, to).ToList();
         return path;
     }
-    
+
     private void PrintPathDebugInformation()
-        => path.ForEach(vector => GD.PrintRaw($"{vector}"));
+        => path?.ForEach(vector => GD.PrintRaw($"{vector}"));
+    
     
 }

@@ -78,10 +78,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Node2D" type="Node2D"]
-position = Vector2(0, 1)
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
 y_sort_enabled = true
 texture_filter = 1
 position = Vector2(2.08165e-12, -16)
@@ -90,3 +87,6 @@ animation = &"new_animation"
 autoplay = "new_animation"
 frame_progress = 0.83501
 script = ExtResource("1_wn4ie")
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(0, 1)
