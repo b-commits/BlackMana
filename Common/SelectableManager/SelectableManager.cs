@@ -24,7 +24,7 @@ internal sealed class SelectableManager<T> : ISelectableManager<T>
     }
 
     public T SelectByCoords(Vector2I mapCoords)
-        => selectables.SingleOrDefault(x => x.MovablePosition == mapCoords);
+        => selectables.SingleOrDefault(x => x.Coords == mapCoords);
 
     public T GetActive()
         => selectables.SingleOrDefault(x => x.Selected);

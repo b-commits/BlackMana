@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://Scenes/TileMap/TileMapHandler.cs" id="3_gqx11"]
 [ext_resource type="PackedScene" uid="uid://ceefnkk6vcurv" path="res://Scenes/Player/Player.tscn" id="4_lr3yg"]
 [ext_resource type="Script" path="res://Scenes/TileMap/Camera.cs" id="5_5r04t"]
-[ext_resource type="PackedScene" uid="uid://ct5ajt2ckgc0k" path="res://Enemy/Enemy.tscn" id="6_pdbgu"]
+[ext_resource type="PackedScene" uid="uid://ct5ajt2ckgc0k" path="res://Scenes/Enemy/Enemy.tscn" id="6_pdbgu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2alp8"]
 resource_name = "ManaTileAnimation"
