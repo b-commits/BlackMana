@@ -4,22 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://bupbuuh5alasg" path="res://Scenes/Enemy/Character.png" id="2_ijnd3"]
 [ext_resource type="Texture2D" uid="uid://c8oi1ubxdw7xh" path="res://Scenes/Player/CharacterVariant.png" id="3_8xo13"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_c5f6l"]
-atlas = ExtResource("2_ijnd3")
-region = Rect2(0, 0, 32, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nosam"]
-atlas = ExtResource("2_ijnd3")
-region = Rect2(32, 0, 32, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o6rjx"]
-atlas = ExtResource("2_ijnd3")
-region = Rect2(64, 0, 32, 48)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uwwbq"]
-atlas = ExtResource("2_ijnd3")
-region = Rect2(96, 0, 32, 48)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_2pms2"]
 atlas = ExtResource("3_8xo13")
 region = Rect2(32, 96, 32, 48)
@@ -36,8 +20,41 @@ region = Rect2(96, 96, 32, 48)
 atlas = ExtResource("3_8xo13")
 region = Rect2(0, 96, 32, 48)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5f6l"]
+atlas = ExtResource("2_ijnd3")
+region = Rect2(0, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nosam"]
+atlas = ExtResource("2_ijnd3")
+region = Rect2(32, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o6rjx"]
+atlas = ExtResource("2_ijnd3")
+region = Rect2(64, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwwbq"]
+atlas = ExtResource("2_ijnd3")
+region = Rect2(96, 0, 32, 48)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_4xthx"]
 animations = [{
+"frames": [{
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_2pms2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ruws6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_81jmy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4wqe")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_c5f6l")
@@ -54,39 +71,15 @@ animations = [{
 "loop": true,
 "name": &"New Animation",
 "speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 2.0,
-"texture": SubResource("AtlasTexture_2pms2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ruws6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_81jmy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_c4wqe")
-}],
-"loop": true,
-"name": &"new_animation",
-"speed": 5.0
 }]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
-y_sort_enabled = true
-texture_filter = 1
-position = Vector2(2.08165e-12, -16)
-sprite_frames = SubResource("SpriteFrames_4xthx")
-animation = &"new_animation"
-autoplay = "new_animation"
-frame_progress = 0.83501
+[node name="Node2D" type="Node2D"]
 script = ExtResource("1_wn4ie")
 
-[node name="Node2D" type="Node2D" parent="."]
-position = Vector2(0, 1)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+y_sort_enabled = true
+texture_filter = 1
+position = Vector2(0, -16)
+sprite_frames = SubResource("SpriteFrames_4xthx")
+animation = &"Idle"
+autoplay = "Idle"

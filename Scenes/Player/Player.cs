@@ -6,7 +6,7 @@ using Sandbox.Common.Interfaces;
 
 namespace Sandbox.Scenes.Player;
 
-internal sealed partial class Player : AnimatedSprite2D, IMovable, ISelectable
+internal sealed partial class Player : Node2D, IMovable, ISelectable
 {
 	private List<Vector2I> path = new();
 	[Export] public bool Selected { get; set; }

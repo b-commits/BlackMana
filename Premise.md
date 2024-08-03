@@ -31,7 +31,7 @@ Isometric 2D narrative-heavy game inspired by DE with occasional turn and grid b
 determine what the affected selectable is
   - Tile hue should be changed programatically to avoid having to add 
 too many alternative textures 
-- [ ] **BM-4**: 
+- [ X ] **BM-4**: Fix coordinate resolution after movement re-work
 - [ ] **BM-5**: 
 - [ ] **BM-6**: 
 
