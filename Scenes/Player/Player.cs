@@ -1,38 +1,57 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using Sandbox.Common.Interfaces;
+using Sandbox.Scenes.TileMap;
 
 namespace Sandbox.Scenes.Player;
 
 internal sealed partial class Player : Node2D, IMovable, ISelectable
 {
-	private List<Vector2I> path = new();
 	[Export] public bool Selected { get; set; }
+	[Export] public Vector2I MapPosition { get; set; }
+	
+	private List<Vector2I> mapPath = new();
+	private TileMapHandler tileMap;
 
+	public override void _Ready()
+	{
+		tileMap = GetParent<TileMapHandler>();
+		MapPosition = tileMap.LocalToMap(Position);
+	}
+	
 	public override void _Process(double delta)
 	{
-		if (path.Any()) MoveByPath();
+		if (mapPath.Any()) 
+			MoveByPath();
 	}
 
 	public void Move(Vector2I mapCoords)
 	{
-		Position = mapCoords;
+		MapPosition = mapCoords;
+		Position = tileMap.MapToLocal(mapCoords);
 	}
 	
 	private void MoveByPath()
 	{
-		Position = path[0];
-		path.RemoveAt(0);
+		Position = tileMap.MapToLocal(mapPath[0]);
+		MapPosition = mapPath[0];
+		mapPath.RemoveAt(0);
 	}
 	
-	public void SetPath(List<Vector2I> mapPath)
-		=> path = mapPath;
+	public void SetPath(List<Vector2I> path)
+		=> mapPath = path;
 	
 
-	public void OnSelect(Action action)
+	public void OnSelect()
 	{
-		throw new NotImplementedException();
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animatedSprite2D.Animation = "SelectedFrame";
+	}
+
+	public void OnDeselect()
+	{
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animatedSprite2D.Animation = "DeselectedFrame";
 	}
 }

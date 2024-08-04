@@ -9,6 +9,7 @@ internal interface ISelectableManager<T> where T : class, ISelectable
 {
     T SelectByCoords(Vector2I mapCoords);
     T GetActive();
+    T Select(T selectable);
     List<T> GetAll();
     bool HasActive();
 }
@@ -24,14 +25,32 @@ internal sealed class SelectableManager<T> : ISelectableManager<T>
     }
 
     public T SelectByCoords(Vector2I mapCoords)
-        => selectables.SingleOrDefault(x => x.Position == mapCoords);
+    {
+        var selectable= selectables.SingleOrDefault(x => x.MapPosition == mapCoords);
+        return selectable is null ? null : Select(selectable);
+    }
 
-    public T GetActive()
-        => selectables.SingleOrDefault(x => x.Selected);
+    public T Select(T selectable)
+    {
+        DeselectCurrentSelectable();
+        selectable.Selected = true;
+        selectable.OnSelect();
+        return selectable;
+    }
+    
+    public List<T> GetAll() => selectables;
 
-    public List<T> GetAll()
-        => selectables;
+    public bool HasActive() => selectables.Exists(x => x.Selected);
 
-    public bool HasActive()
-        => selectables.Exists(x => x.Selected);
+    public T GetActive() => selectables.SingleOrDefault(x => x.Selected);
+
+    private void DeselectCurrentSelectable()
+    {
+        selectables.Where(x => x.Selected).ToList().ForEach(x =>
+        {
+            x.Selected = !x.Selected;
+            x.OnDeselect();
+        });
+    }
+    
 }
