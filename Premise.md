@@ -21,8 +21,8 @@ Isometric 2D narrative-heavy game inspired by DE with occasional turn and grid b
 
 ### To do list:
 
-- [x] **BM-1**: Fix character movement (incorrect tile getting selected).
-- [ ] **BM-2**: Add the ability to select active interactable *aka* player or party member (will be useful for turn based combat)
+- [X] **BM-1**: Fix character movement (incorrect tile getting selected).
+- [X] **BM-2**: Add the ability to select active interactable *aka* player or party member (will be useful for turn based combat)
   - Create an outlined texture variant
   - When a player is select, outline variant appears
   - Sets the active selectable
@@ -31,7 +31,7 @@ Isometric 2D narrative-heavy game inspired by DE with occasional turn and grid b
 determine what the affected selectable is
   - Tile hue should be changed programatically to avoid having to add 
 too many alternative textures 
-- [ X ] **BM-4**: Fix coordinate resolution after movement re-work
+- [X] **BM-4**: Fix coordinate resolution after movement re-work
 - [ ] **BM-5**: 
 - [ ] **BM-6**: 
 
