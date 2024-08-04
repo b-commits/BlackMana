@@ -38,23 +38,19 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 
 	private void SelectCell(Vector2I mapCoords)
 	{
-		if (CellHasSelectable(mapCoords))
-			_selectableManager.SelectByCoords(mapCoords);
+		var coordsSelectable = _selectableManager.SelectByCoords(mapCoords);
 
-		if (!CellHasSelectable(mapCoords) && _selectableManager.HasActive())
+		if (coordsSelectable is null && _selectableManager.HasActive())
 		{
-			var mapPath = _aStarGridProvider.GetPath(LocalToMap(_selectableManager.GetActive().Position), mapCoords);
+			var mapPath = _aStarGridProvider.GetPath(_selectableManager.GetActive().MapPosition, 
+				mapCoords);
 			_selectableManager.GetActive().SetPath(mapPath);
 		}
 	}
-
-	private bool CellHasSelectable(Vector2I mapCoords)
-		=>_selectableManager.SelectByCoords(mapCoords) is not null;
 	
 	private void RemoveTile()
 		=> SetCell(0, LocalToMap(GetLocalMousePosition()));
 	
-		
 	private void GetAllTiles()
 	{
 		var layers = Enumerable.Range(0, GetLayersCount()).ToList();
