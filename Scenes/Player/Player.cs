@@ -14,6 +14,7 @@ internal sealed partial class Player : Node2D, IMovable, ISelectable
 	
 	private List<Vector2I> mapPath = new();
 	private TileMapHandler tileMap;
+	private Tween MyTween { get; set; }
 	
 	private Vector2 CartesianToIsometric(Vector2 vector)
 	{
@@ -28,8 +29,10 @@ internal sealed partial class Player : Node2D, IMovable, ISelectable
 	
 	public override void _Process(double delta)
 	{
-		if (mapPath.Any()) 
-			MoveByPath();
+		if (mapPath.Any())
+		{
+			MoveByPath(); 
+		}
 	}
 
 	public void Move(Vector2I mapCoords)
@@ -40,17 +43,16 @@ internal sealed partial class Player : Node2D, IMovable, ISelectable
 	
 	private void MoveByPath()
 	{
-		var currentPosition = Position;
+		if (MyTween is not null && MyTween.IsRunning())
+			return;
+		
 		var nextPosition = tileMap.MapToLocal(mapPath[0]);
+		var duration = Position.DistanceTo(nextPosition) / Speed;
 		
-		var distance = currentPosition.DistanceTo(nextPosition);
+		var tween = CreateTween();
+		MyTween = tween;
+		tween.TweenProperty(this, "position", nextPosition, duration);
 
-		var duration = distance / Speed;
-		
-		GetTree()
-			.CreateTween()
-			.TweenProperty(this, "position", nextPosition, duration);
-		
 		MapPosition = mapPath[0];
 		mapPath.RemoveAt(0);
 	}
