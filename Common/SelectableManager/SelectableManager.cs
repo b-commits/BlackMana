@@ -32,9 +32,11 @@ internal sealed class SelectableManager<T> : ISelectableManager<T>
 
     public T Select(T selectable)
     {
+        if (GetActive() == selectable)
+            return selectable;
+        
         DeselectCurrentSelectable();
-        selectable.Selected = true;
-        selectable.OnSelect();
+        selectable.Select();
         return selectable;
     }
     
@@ -44,13 +46,5 @@ internal sealed class SelectableManager<T> : ISelectableManager<T>
 
     public T GetActive() => selectables.SingleOrDefault(x => x.Selected);
 
-    private void DeselectCurrentSelectable()
-    {
-        selectables.Where(x => x.Selected).ToList().ForEach(x =>
-        {
-            x.Selected = !x.Selected;
-            x.OnDeselect();
-        });
-    }
-    
+    private void DeselectCurrentSelectable() => GetActive().Deselect();
 }
