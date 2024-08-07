@@ -10,9 +10,15 @@ internal sealed partial class Player : Node2D, IMovable, ISelectable
 {
 	[Export] public bool Selected { get; set; }
 	[Export] public Vector2I MapPosition { get; set; }
+	[Export] public float Speed { get; set; } = 50.0F;
 	
 	private List<Vector2I> mapPath = new();
 	private TileMapHandler tileMap;
+	
+	private Vector2 CartesianToIsometric(Vector2 vector)
+	{
+		return new Vector2(vector.X - vector.Y, (vector.X + vector.Y) / 2);
+	}
 
 	public override void _Ready()
 	{
@@ -34,7 +40,17 @@ internal sealed partial class Player : Node2D, IMovable, ISelectable
 	
 	private void MoveByPath()
 	{
-		Position = tileMap.MapToLocal(mapPath[0]);
+		var currentPosition = Position;
+		var nextPosition = tileMap.MapToLocal(mapPath[0]);
+		
+		var distance = currentPosition.DistanceTo(nextPosition);
+
+		var duration = distance / Speed;
+		
+		GetTree()
+			.CreateTween()
+			.TweenProperty(this, "position", nextPosition, duration);
+		
 		MapPosition = mapPath[0];
 		mapPath.RemoveAt(0);
 	}
