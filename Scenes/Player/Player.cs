@@ -16,10 +16,8 @@ internal sealed partial class Player : Node2D, IMovable, ISelectable
 	private TileMapHandler tileMap;
 	private Tween MyTween { get; set; }
 	
-	private Vector2 CartesianToIsometric(Vector2 vector)
-	{
-		return new Vector2(vector.X - vector.Y, (vector.X + vector.Y) / 2);
-	}
+	private static Vector2 CartesianToIsometric(Vector2 vector) 
+		=> new(vector.X - vector.Y, (vector.X + vector.Y) / 2);
 
 	public override void _Ready()
 	{
@@ -48,6 +46,46 @@ internal sealed partial class Player : Node2D, IMovable, ISelectable
 		
 		var nextPosition = tileMap.MapToLocal(mapPath[0]);
 		var duration = Position.DistanceTo(nextPosition) / Speed;
+
+		if (nextPosition.Y < Position.Y && nextPosition.X == Position.X)
+		{
+			PlayWalkN();
+		}
+		
+		if (nextPosition.Y > Position.Y && nextPosition.X == Position.X)
+		{
+			PlayWalkS();
+		}
+		
+		if (nextPosition.Y == Position.Y && nextPosition.X < Position.X)
+		{
+			PlayWalkW();
+		}
+		
+		if (nextPosition.Y == Position.Y && nextPosition.X > Position.X)
+		{
+			PlayWalkE();
+		}
+		
+		if (nextPosition.Y < Position.Y && nextPosition.X > Position.X)
+		{
+			PlayWalkNE();
+		}
+		
+		if (nextPosition.Y < Position.Y && nextPosition.X < Position.X)
+		{
+			PlayWalkNW();
+		}
+		
+		if (nextPosition.Y > Position.Y && nextPosition.X > Position.X)
+		{
+			PlayWalkSE();
+		}
+		
+		if (nextPosition.Y < Position.Y && nextPosition.X < Position.X)
+		{
+			PlayWalkSW();
+		}
 		
 		var tween = CreateTween();
 		MyTween = tween;
@@ -55,21 +93,73 @@ internal sealed partial class Player : Node2D, IMovable, ISelectable
 
 		MapPosition = mapPath[0];
 		mapPath.RemoveAt(0);
+
+		if (mapPath.Count == 0)
+		{
+			OnSelect();
+		}
 	}
 	
 	public void SetPath(List<Vector2I> path)
 		=> mapPath = path;
+
+	private void PlayWalkSE()
+	{
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animatedSprite2D.Animation = "WalkSESelected";
+	}
+
+	private void PlayWalkSW()
+	{
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animatedSprite2D.Animation = "WalkSWSelected";
+	}
+
+	private void PlayWalkS()
+	{
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animatedSprite2D.Animation = "WalkSSelected";
+	}
+
+	private void PlayWalkNE()
+	{
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animatedSprite2D.Animation = "WalkNESelected";
+	}
+
+	private void PlayWalkNW()
+	{
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animatedSprite2D.Animation = "WalkNWSelected";
+	}
 	
+	private void PlayWalkW()
+	{
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animatedSprite2D.Animation = "WalkWSelected";
+	}
+	
+	private void PlayWalkE()
+	{
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animatedSprite2D.Animation = "WalkESelected";
+	}
+
+	private void PlayWalkN()
+	{
+		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		animatedSprite2D.Animation = "WalkNSelected";
+	}
 
 	public void OnSelect()
 	{
 		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		animatedSprite2D.Animation = "SelectedFrame";
+		animatedSprite2D.Animation = "IdleSelectedFrame";
 	}
 
 	public void OnDeselect()
 	{
 		var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
-		animatedSprite2D.Animation = "DeselectedFrame";
+		animatedSprite2D.Animation = "IdleFrame";
 	}
 }
