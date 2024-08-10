@@ -25,6 +25,5 @@ internal interface ISelectable
 
 internal interface IMovable
 {
-    void Move(Vector2I mapCoords);
     void SetPath(List<Vector2I> path);
 }

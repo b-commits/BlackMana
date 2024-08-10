@@ -10,14 +10,11 @@ internal sealed partial class Player : Node2D, IMovable, ISelectable
 {
 	[Export] public bool Selected { get; set; }
 	[Export] public Vector2I MapPosition { get; set; }
-	[Export] public float Speed { get; set; } = 50.0F;
+	[Export] public float Speed { get; set; } = 100.0F;
 	
 	private List<Vector2I> mapPath = new();
 	private TileMapHandler tileMap;
 	private Tween MyTween { get; set; }
-	
-	private static Vector2 CartesianToIsometric(Vector2 vector) 
-		=> new(vector.X - vector.Y, (vector.X + vector.Y) / 2);
 
 	public override void _Ready()
 	{
@@ -28,15 +25,7 @@ internal sealed partial class Player : Node2D, IMovable, ISelectable
 	public override void _Process(double delta)
 	{
 		if (mapPath.Any())
-		{
 			MoveByPath(); 
-		}
-	}
-
-	public void Move(Vector2I mapCoords)
-	{
-		MapPosition = mapCoords;
-		Position = tileMap.MapToLocal(mapCoords);
 	}
 	
 	private void MoveByPath()
@@ -45,63 +34,69 @@ internal sealed partial class Player : Node2D, IMovable, ISelectable
 			return;
 		
 		var nextPosition = tileMap.MapToLocal(mapPath[0]);
-		var duration = Position.DistanceTo(nextPosition) / Speed;
 
-		if (nextPosition.Y < Position.Y && nextPosition.X == Position.X)
+		TweenPosition(nextPosition);
+
+		MapPosition = mapPath[0];
+		mapPath.RemoveAt(0);
+		
+		if (mapPath.Count == 0)
+			OnSelect();
+	}
+
+	private void TweenPosition(Vector2 nextPosition)
+	{
+		var duration = Position.DistanceTo(nextPosition) / Speed;
+		ResolveAnimation(nextPosition);
+		var tween = CreateTween();
+		MyTween = tween;
+		tween.TweenProperty(this, "position", nextPosition, duration);
+	}
+
+	private void ResolveAnimation(Vector2 nextMapPosition)
+	{
+		if (nextMapPosition.Y < MapPosition.Y && nextMapPosition.X == MapPosition.X)
 		{
 			PlayWalkN();
 		}
 		
-		if (nextPosition.Y > Position.Y && nextPosition.X == Position.X)
+		if (nextMapPosition.Y > MapPosition.Y && nextMapPosition.X == MapPosition.X)
 		{
 			PlayWalkS();
 		}
 		
-		if (nextPosition.Y == Position.Y && nextPosition.X < Position.X)
+		if (nextMapPosition.Y == MapPosition.Y && nextMapPosition.X < MapPosition.X)
 		{
 			PlayWalkW();
 		}
 		
-		if (nextPosition.Y == Position.Y && nextPosition.X > Position.X)
+		if (nextMapPosition.Y == MapPosition.Y && nextMapPosition.X > MapPosition.X)
 		{
 			PlayWalkE();
 		}
 		
-		if (nextPosition.Y < Position.Y && nextPosition.X > Position.X)
+		if (nextMapPosition.Y < MapPosition.Y && nextMapPosition.X > MapPosition.X)
 		{
 			PlayWalkNE();
 		}
 		
-		if (nextPosition.Y < Position.Y && nextPosition.X < Position.X)
+		if (nextMapPosition.Y < MapPosition.Y && nextMapPosition.X < MapPosition.X)
 		{
 			PlayWalkNW();
 		}
 		
-		if (nextPosition.Y > Position.Y && nextPosition.X > Position.X)
+		if (nextMapPosition.Y > MapPosition.Y && nextMapPosition.X > MapPosition.X)
 		{
 			PlayWalkSE();
 		}
 		
-		if (nextPosition.Y < Position.Y && nextPosition.X < Position.X)
+		if (nextMapPosition.Y < MapPosition.Y && nextMapPosition.X < MapPosition.X)
 		{
 			PlayWalkSW();
 		}
-		
-		var tween = CreateTween();
-		MyTween = tween;
-		tween.TweenProperty(this, "position", nextPosition, duration);
-
-		MapPosition = mapPath[0];
-		mapPath.RemoveAt(0);
-
-		if (mapPath.Count == 0)
-		{
-			OnSelect();
-		}
 	}
 	
-	public void SetPath(List<Vector2I> path)
-		=> mapPath = path;
+	public void SetPath(List<Vector2I> path) => mapPath = path;
 
 	private void PlayWalkSE()
 	{
