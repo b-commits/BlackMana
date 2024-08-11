@@ -12,12 +12,13 @@ Isometric 2D narrative-heavy game inspired by DE with occasional turn and grid b
 - Players can select other enemy (interactable)
 - Players can switch scenes (location) animated by a scene
 
----
-
 *In combat:*
 - Selecting party member, selecting a skill and then selecting another interactable object
 - Skills are displayed on the action
-- Only one character can move at a time 
+- Only one character can move at a time
+
+---
+
 
 ### Tasks
 
