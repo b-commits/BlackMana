@@ -1,0 +1,11 @@
+/Users/bartek/Projects/Sandbox.Documentation/Sandbox.Documentation/bin/Debug/net8.0/Sandbox.Documentation.deps.json
+/Users/bartek/Projects/Sandbox.Documentation/Sandbox.Documentation/bin/Debug/net8.0/Sandbox.Documentation.dll
+/Users/bartek/Projects/Sandbox.Documentation/Sandbox.Documentation/bin/Debug/net8.0/Sandbox.Documentation.pdb
+/Users/bartek/Projects/Sandbox.Documentation/Sandbox.Documentation/obj/Debug/net8.0/Sandbox.Documentation.GeneratedMSBuildEditorConfig.editorconfig
+/Users/bartek/Projects/Sandbox.Documentation/Sandbox.Documentation/obj/Debug/net8.0/Sandbox.Documentation.AssemblyInfoInputs.cache
+/Users/bartek/Projects/Sandbox.Documentation/Sandbox.Documentation/obj/Debug/net8.0/Sandbox.Documentation.AssemblyInfo.cs
+/Users/bartek/Projects/Sandbox.Documentation/Sandbox.Documentation/obj/Debug/net8.0/Sandbox.Documentation.csproj.CoreCompileInputs.cache
+/Users/bartek/Projects/Sandbox.Documentation/Sandbox.Documentation/obj/Debug/net8.0/Sandbox.Documentation.dll
+/Users/bartek/Projects/Sandbox.Documentation/Sandbox.Documentation/obj/Debug/net8.0/refint/Sandbox.Documentation.dll
+/Users/bartek/Projects/Sandbox.Documentation/Sandbox.Documentation/obj/Debug/net8.0/Sandbox.Documentation.pdb
+/Users/bartek/Projects/Sandbox.Documentation/Sandbox.Documentation/obj/Debug/net8.0/ref/Sandbox.Documentation.dll
