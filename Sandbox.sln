@@ -2,6 +2,8 @@
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox.csproj", "{29981280-2D57-4897-931A-AA8BB170B02F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox.Documentation", "..\Sandbox.Documentation\Sandbox.Documentation\Sandbox.Documentation.csproj", "{93CC02B4-CC15-426B-8F20-C1592C17DB63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 	Debug|Any CPU = Debug|Any CPU
@@ -15,5 +17,11 @@ Global
 		{29981280-2D57-4897-931A-AA8BB170B02F}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{29981280-2D57-4897-931A-AA8BB170B02F}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{29981280-2D57-4897-931A-AA8BB170B02F}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{93CC02B4-CC15-426B-8F20-C1592C17DB63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93CC02B4-CC15-426B-8F20-C1592C17DB63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93CC02B4-CC15-426B-8F20-C1592C17DB63}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93CC02B4-CC15-426B-8F20-C1592C17DB63}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{93CC02B4-CC15-426B-8F20-C1592C17DB63}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{93CC02B4-CC15-426B-8F20-C1592C17DB63}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal
