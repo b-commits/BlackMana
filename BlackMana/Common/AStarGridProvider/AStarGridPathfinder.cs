@@ -14,7 +14,7 @@ internal sealed partial class AStarGridPathfinder : Node2D, IPathfinder
     private readonly AStarGrid2D aStarGrid = new();
     private List<Vector2I> path;
     [Export] private AStarGrid2D.DiagonalModeEnum _diagonalModeEnum;
-    
+
     public AStarGridPathfinder(Rect2I rect, Vector2I tileSize)
     {
         aStarGrid.Region = rect;
