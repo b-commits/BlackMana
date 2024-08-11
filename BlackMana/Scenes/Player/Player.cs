@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Godot;
-using Sandbox.AutoLoads;
-using Sandbox.Common.Interfaces;
+using BlackMana.AutoLoads;
+using BlackMana.Common.Interfaces;
 
-namespace Sandbox.Scenes.Player;
+namespace BlackMana.Scenes.Player;
 
 internal sealed partial class Player
 	: Node2D, IMovable, ISelectable

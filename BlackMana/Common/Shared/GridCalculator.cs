@@ -2,7 +2,7 @@
 // ReSharper disable UnusedMember.Global
 using Godot;
 
-namespace Sandbox.Common.Shared;
+namespace BlackMana.Common.Shared;
 
 internal static class GridCalculator
 {

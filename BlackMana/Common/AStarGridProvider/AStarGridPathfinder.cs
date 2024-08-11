@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-namespace Sandbox.Common.AStarGridProvider;
+namespace BlackMana.Common.AStarGridProvider;
 
 internal interface IPathfinder
 {

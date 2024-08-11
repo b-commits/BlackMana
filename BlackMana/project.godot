@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Sandbox"
+config/name="BlackMana"
 run/main_scene="res://Scenes/TileMap/TileMap.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://TileSheet.png"
@@ -22,7 +22,7 @@ MouseController="*res://AutoLoads/MouseController.cs"
 
 [dotnet]
 
-project/assembly_name="Sandbox"
+project/assembly_name="BlackMana"
 
 [input]
 

@@ -1,7 +1,7 @@
 using Godot;
-using TileMapHandler = Sandbox.Scenes.TileMap.TileMapHandler;
+using BlackMana.Scenes.TileMap;
 
-namespace Sandbox.Scenes.World;
+namespace BlackMana.Scenes.World;
 
 public partial class WorldHandler : Node2D
 {

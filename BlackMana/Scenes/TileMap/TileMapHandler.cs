@@ -1,13 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Sandbox.AutoLoads;
-using Sandbox.Common.Actions;
-using Sandbox.Common.AStarGridProvider;
-using Sandbox.Common.SelectableManager;
-using MouseController = Sandbox.AutoLoads.MouseController;
+using BlackMana.AutoLoads;
+using BlackMana.Common.Actions;
+using BlackMana.Common.AStarGridProvider;
+using BlackMana.Common.SelectableManager;
 
-namespace Sandbox.Scenes.TileMap;
+namespace BlackMana.Scenes.TileMap;
 
 internal sealed partial class TileMapHandler 
 	: Godot.TileMap

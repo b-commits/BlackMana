@@ -1,4 +1,4 @@
-namespace Sandbox.Common.Actions;
+namespace BlackMana.Common.Actions;
 
 internal static class ActionProvider
 {

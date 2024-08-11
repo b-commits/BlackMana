@@ -1,4 +1,4 @@
-namespace Sandbox.Scenes.Player;
+namespace BlackMana.Scenes.Player;
 
 internal static class PlayerAnimations
 {

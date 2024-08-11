@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Sandbox.AutoLoads;
+namespace BlackMana.AutoLoads;
 
 internal interface IMouseDeviceController
 {

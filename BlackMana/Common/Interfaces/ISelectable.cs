@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Sandbox.Common.Interfaces;
+namespace BlackMana.Common.Interfaces;
 
 internal interface ISelectable
 {

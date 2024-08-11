@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using Sandbox.Common.Interfaces;
+using BlackMana.Common.Interfaces;
 
-namespace Sandbox.Common.SelectableManager;
+namespace BlackMana.Common.SelectableManager;
 
 internal interface ISelectableManager<T> where T : class, ISelectable
 {

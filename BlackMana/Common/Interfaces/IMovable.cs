@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 
-namespace Sandbox.Common.Interfaces;
+namespace BlackMana.Common.Interfaces;
 
 internal interface IMovable
 {
