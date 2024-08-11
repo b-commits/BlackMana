@@ -48,7 +48,7 @@ internal sealed partial class TileMapHandler
 		if (!_mouseController.IsMouseClick(@event))  
 			return;
 		
-		if (@event.IsActionPressed(ActionProvider.LEFT_MOUSE_BUTTON))
+		if (@event.IsActionPressed(ActionProvider.LeftMouseButton))
 			SelectCell(LocalToMap(GetLocalMousePosition()));
 	}
 
