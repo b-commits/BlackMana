@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://ceefnkk6vcurv"]
+[gd_scene load_steps=41 format=3 uid="uid://ceefnkk6vcurv"]
 
 [ext_resource type="Script" path="res://Scenes/Player/Player.cs" id="1_wn4ie"]
 [ext_resource type="Texture2D" uid="uid://bs1elulbj5ntb" path="res://Scenes/Player/playermovement-sheet.png" id="2_v73dw"]
@@ -348,6 +348,8 @@ animations = [{
 "speed": 3.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_kuili"]
+
 [node name="Node2D" type="CharacterBody2D"]
 script = ExtResource("1_wn4ie")
 MapPosition = Vector2i(3, 1)
@@ -360,3 +362,6 @@ sprite_frames = SubResource("SpriteFrames_uiprc")
 animation = &"WalkNWSelected"
 autoplay = "IdleFrame"
 frame_progress = 0.26936
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kuili")

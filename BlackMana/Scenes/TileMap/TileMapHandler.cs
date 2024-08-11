@@ -45,9 +45,9 @@ internal sealed partial class TileMapHandler
 	
 	public override void _Input(InputEvent @event)
 	{
-		if (_mouseController.IsMouseClick(@event))  
+		if (!_mouseController.IsMouseClick(@event))  
 			return;
-
+		
 		if (@event.IsActionPressed(ActionProvider.LEFT_MOUSE_BUTTON))
 			SelectCell(LocalToMap(GetLocalMousePosition()));
 	}

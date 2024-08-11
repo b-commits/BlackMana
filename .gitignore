@@ -1,4 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
 .idea/
-blackmana.documentation/obj
+BlackMana.Documentation/obj
+BlackMana.Documentation/bin
