@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Godot;
 
 namespace Sandbox.Common.Interfaces;
@@ -21,10 +20,4 @@ internal interface ISelectable
         Selected = false;
         OnDeselect();
     }
-}
-
-internal interface IMovable
-{
-    public List<Vector2I> MapPath { get; set; }
-    void SetPath(List<Vector2I> path);
 }

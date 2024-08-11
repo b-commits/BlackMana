@@ -32,7 +32,8 @@ determine what the affected selectable is
   - Tile hue should be changed programatically to avoid having to add 
 too many alternative textures 
 - [X] **BM-4**: Fix coordinate resolution after movement re-work
-- [ ] **BM-5**: 
-- [ ] **BM-6**: 
+- [ ] **BM-5**: Implement scrollable camera that follows active selectable
+- [ ] **BM-6**: Implement a rudimentary dialogue box
+- 
 
 

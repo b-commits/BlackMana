@@ -2,27 +2,23 @@ using Godot;
 
 namespace Sandbox.Scenes.TileMap;
 
-public class TileTexture
+internal sealed class TileTexture
 {
-    public Vector2I AtlasCoords { get; set; }
-    public int SourceId { get; set; }
+    public Vector2I AtlasCoords { get; init; }
+    public int SourceId { get; init; }
 }
 
-public class TileAsset
+internal sealed class TileAsset
 {
-    public TileAssetName Name { get; set; }
-    public TileTexture TileTexture { get; set; }
+    public TileAssetName Name { get; init; }
+    public TileTexture TileTexture { get; init; }
 }
 
-public enum TileAssetName
-{
-    MANA_TILE,
-    MANA_STAR_TILE
-}
+internal enum TileAssetName { MANA_TILE, MANA_STAR_TILE }
 
-public static class TileProvider
+internal static class TileProvider
 {
-    public static readonly TileAsset ManaTile = new()
+    internal static readonly TileAsset ManaTile = new()
     {
         Name = TileAssetName.MANA_TILE,
         TileTexture = new TileTexture
@@ -41,6 +37,4 @@ public static class TileProvider
             SourceId = 1
         }
     };
-    
-    
 }

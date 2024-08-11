@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dl06w3s4r0tkw"]
+[gd_scene load_steps=11 format=3 uid="uid://dl06w3s4r0tkw"]
 
 [ext_resource type="Texture2D" uid="uid://4m7g7lkvhv56" path="res://Scenes/TileMap/Sprite-0002.png" id="1_vqk2o"]
 [ext_resource type="Texture2D" uid="uid://cl3u6pi2mbvnq" path="res://TileSheet.png" id="2_hdd8w"]
 [ext_resource type="Script" path="res://Scenes/TileMap/TileMapHandler.cs" id="3_gqx11"]
 [ext_resource type="PackedScene" uid="uid://ceefnkk6vcurv" path="res://Scenes/Player/Player.tscn" id="4_lr3yg"]
+[ext_resource type="PackedScene" uid="uid://tjb8csp4p8gi" path="res://Scenes/MouseDeviceController/MouseDeviceController.tscn" id="4_pvtjy"]
 [ext_resource type="Script" path="res://Scenes/TileMap/Camera.cs" id="5_5r04t"]
 [ext_resource type="PackedScene" uid="uid://ct5ajt2ckgc0k" path="res://Scenes/Enemy/Enemy.tscn" id="6_pdbgu"]
 
@@ -62,6 +63,9 @@ layer_2/y_sort_enabled = true
 layer_2/z_index = 2
 layer_2/tile_data = PackedInt32Array()
 script = ExtResource("3_gqx11")
+
+[node name="MouseDeviceController" parent="." instance=ExtResource("4_pvtjy")]
+position = Vector2(0, 16)
 
 [node name="Player" parent="." instance=ExtResource("4_lr3yg")]
 z_index = 5

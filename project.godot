@@ -18,6 +18,7 @@ config/icon="res://TileSheet.png"
 [autoload]
 
 CustomSignals="*res://AutoLoads/CustomSignals.cs"
+MouseController="*res://AutoLoads/MouseController.cs"
 
 [dotnet]
 

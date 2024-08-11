@@ -4,34 +4,49 @@ using Godot;
 using Sandbox.AutoLoads;
 using Sandbox.Common.Actions;
 using Sandbox.Common.AStarGridProvider;
-using Sandbox.Common.MouseDeviceController;
 using Sandbox.Common.SelectableManager;
+using MouseController = Sandbox.AutoLoads.MouseController;
 
 namespace Sandbox.Scenes.TileMap;
 
-internal sealed partial class TileMapHandler : Godot.TileMap
+internal sealed partial class TileMapHandler 
+	: Godot.TileMap
 {
 	private IPathfinder _aStarGridProvider;
 	private ISelectableManager<Player.Player> _selectableManager;
+	private MouseController _mouseController;
 	private CustomSignals _customSignals;
 	
 	public override void _Ready()
 	{
 		_aStarGridProvider = new AStarGridPathfinder(GetUsedRect(), TileSet.TileSize);
-		_customSignals = GetNode<CustomSignals>(CustomSignals.ScenePath);
-		
-		_customSignals.RequestMove += OnMoveRequested;
+		_mouseController = GetNode<MouseController>(MouseController.ScenePath);
+		_customSignals = GetNode<CustomSignals>(CustomSignals.ScenePath); 
 		_selectableManager = new SelectableManager<Player.Player>(SeedPlayers());
+		RegisterEventHandlers();		
 	}
 
-	private void OnMoveRequested(Vector2I position)
+	private void RegisterEventHandlers()
 	{
-		_selectableManager.GetActive().Move(MapToLocal(position));
+		_customSignals.RequestMove += OnMoveRequested;
+		_customSignals.PrintMapPosition += OnPrintMapPosition;
 	}
+
+	private void OnMoveRequested(RequestMoveEvent requestMoveEvent)
+	{
+		if (requestMoveEvent.NextMapPosition != requestMoveEvent.CurrentMapPosition &&
+		    _selectableManager.SelectByCoords(requestMoveEvent.NextMapPosition) is not null)
+			return;
+		
+		_selectableManager.GetActive().Move(MapToLocal(requestMoveEvent.NextMapPosition));
+	}
+
+	private void OnPrintMapPosition(Vector2 localPosition)
+		=> GD.Print(LocalToMap(localPosition));
 	
 	public override void _Input(InputEvent @event)
 	{
-		if (!MouseDeviceController.IsMouseClick(@event))  
+		if (_mouseController.IsMouseClick(@event))  
 			return;
 
 		if (@event.IsActionPressed(ActionProvider.LEFT_MOUSE_BUTTON))
@@ -69,5 +84,4 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 		var layers = Enumerable.Range(0, GetLayersCount()).ToList();
 		layers.ForEach(layer => GD.Print(GetUsedCells(layer)));
 	}
-	
 }
