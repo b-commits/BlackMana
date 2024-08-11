@@ -2,21 +2,21 @@ using Godot;
 
 namespace BlackMana.AutoLoads;
 
-internal interface IMouseDeviceController
+internal interface IMouseController
 {
     bool IsMouseClick(InputEvent inputEvent);
     void PrintMouseDebugInformation();
 }
 
-internal sealed partial class MouseController : Node2D, IMouseDeviceController
+internal sealed partial class MouseController : Node2D, IMouseController
 {
     public const string ScenePath = "/root/MouseController";
     
-    private readonly CustomSignals _customSignals;
+    private ICustomSignals _customSignals;
 
-    public MouseController()
+    public override void _Ready()
     {
-        _customSignals = GetNode<CustomSignals>(CustomSignals.ScenePath);
+        _customSignals = GetNode<ICustomSignals>(CustomSignals.ScenePath);
     }
     
     public bool IsMouseClick(InputEvent inputEvent)

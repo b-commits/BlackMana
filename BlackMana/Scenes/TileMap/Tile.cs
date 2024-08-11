@@ -1,6 +1,6 @@
 using Godot;
 
-namespace Sandbox.Scenes.TileMap;
+namespace BlackMana.Scenes.TileMap;
 
 internal sealed class Tile
 {

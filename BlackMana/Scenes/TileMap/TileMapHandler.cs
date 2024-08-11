@@ -13,13 +13,13 @@ internal sealed partial class TileMapHandler
 {
 	private IPathfinder _aStarGridProvider;
 	private ISelectableManager<Player.Player> _selectableManager;
-	private MouseController _mouseController;
+	private IMouseController _mouseController;
 	private CustomSignals _customSignals;
 	
 	public override void _Ready()
 	{
 		_aStarGridProvider = new AStarGridPathfinder(GetUsedRect(), TileSet.TileSize);
-		_mouseController = GetNode<MouseController>(MouseController.ScenePath);
+		_mouseController = GetNode<IMouseController>(MouseController.ScenePath);
 		_customSignals = GetNode<CustomSignals>(CustomSignals.ScenePath); 
 		_selectableManager = new SelectableManager<Player.Player>(SeedPlayers());
 		RegisterEventHandlers();		
