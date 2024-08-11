@@ -23,3 +23,4 @@
 - [ ] **BM-B-2**: Fix movement when 
 - [X] **BM-B-3**: Fix coordinate resolution after movement re-work
 - [X] **BM-B-4**: Fix character movement (incorrect tile getting selected)
+- [ ] **BM-B-5**: 
