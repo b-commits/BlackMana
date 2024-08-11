@@ -26,7 +26,7 @@ internal sealed class SelectableManager<T> : ISelectableManager<T>
 
     public T SelectByCoords(Vector2I mapCoords)
     {
-        var selectable= selectables.SingleOrDefault(x => x.MapPosition == mapCoords);
+        var selectable = selectables.SingleOrDefault(x => x.MapPosition == mapCoords);
         return selectable is null ? null : Select(selectable);
     }
 
@@ -34,12 +34,12 @@ internal sealed class SelectableManager<T> : ISelectableManager<T>
     {
         if (GetActive() == selectable)
             return selectable;
-        
+
         DeselectCurrentSelectable();
         selectable.Select();
         return selectable;
     }
-    
+
     public List<T> GetAll() => selectables;
 
     public bool HasActive() => selectables.Exists(x => x.Selected);

@@ -11,14 +11,14 @@ internal interface IMouseController
 internal sealed partial class MouseController : Node2D, IMouseController
 {
     public const string ScenePath = $"{Common.RootPath}/MouseController";
-    
+
     private ICustomSignals _customSignals;
 
     public override void _Ready()
     {
         _customSignals = GetNode<ICustomSignals>(CustomSignals.ScenePath);
     }
-    
+
     public bool IsMouseClick(InputEvent inputEvent)
     {
         return inputEvent is InputEventMouseButton && inputEvent.IsPressed();

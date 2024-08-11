@@ -14,7 +14,11 @@ internal sealed class TileAsset
     public TileTexture TileTexture { get; init; }
 }
 
-internal enum TileAssetName { MANA_TILE, MANA_STAR_TILE }
+internal enum TileAssetName
+{
+    MANA_TILE,
+    MANA_STAR_TILE
+}
 
 internal static class TileProvider
 {
@@ -27,7 +31,7 @@ internal static class TileProvider
             SourceId = 3
         }
     };
-    
+
     public static readonly TileAsset ManaStarTile = new()
     {
         Name = TileAssetName.MANA_STAR_TILE,

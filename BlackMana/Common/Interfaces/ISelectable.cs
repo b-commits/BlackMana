@@ -8,13 +8,13 @@ internal interface ISelectable
     public Vector2I MapPosition { get; set; }
     public void OnSelect();
     public void OnDeselect();
-    
+
     public void Select()
     {
         Selected = true;
         OnSelect();
     }
-    
+
     public void Deselect()
     {
         Selected = false;
