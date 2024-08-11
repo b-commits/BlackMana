@@ -2,7 +2,7 @@
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackMana", "BlackMana/BlackMana.csproj", "{29981280-2D57-4897-931A-AA8BB170B02F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackMana.Documentation", "..\BlackMana.Documentation\BlackMana.Documentation\BlackMana.Documentation.csproj", "{A5BD776A-5DB8-4F3E-BDD8-878F45314444}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackMana.Documentation", "BlackMana.Documentation/BlackMana.Documentation.csproj", "{A5BD776A-5DB8-4F3E-BDD8-878F45314444}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
