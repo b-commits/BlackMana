@@ -8,9 +8,9 @@ internal interface ICustomSignals
     void EmitPrintMapPosition(Vector2 localPosition);
 }
 
-public sealed partial class CustomSignals : Node, ICustomSignals
+internal sealed partial class CustomSignals : Node, ICustomSignals
 {
-    internal const string ScenePath = "/root/CustomSignals";
+    internal const string ScenePath = $"{Common.RootPath}/CustomSignals";
     
     [Signal] public delegate void RequestMoveEventHandler(RequestMoveEvent requestMoveEvent);
     [Signal] public delegate void PrintMapPositionEventHandler(Vector2 localPosition);
@@ -22,7 +22,7 @@ public sealed partial class CustomSignals : Node, ICustomSignals
         => EmitSignal(SignalName.PrintMapPosition, localPosition);
 }
 
-public sealed partial class RequestMoveEvent : GodotObject
+internal sealed partial class RequestMoveEvent : GodotObject
 {
     public Vector2I CurrentMapPosition { get; init; }
     public Vector2I NextMapPosition { get; init; }

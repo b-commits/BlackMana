@@ -44,7 +44,7 @@ internal sealed partial class Player
 		var duration = Position.DistanceTo(nextPosition) / Speed;
 		ResolveAnimation(nextPosition);
 		MyTween = CreateTween();
-		MyTween.TweenProperty(this, "position", nextPosition, duration);
+		MyTween.TweenProperty(this, nameof(Position).ToLower(), nextPosition, duration);
 	}
 
 	public void Move(Vector2 position)
