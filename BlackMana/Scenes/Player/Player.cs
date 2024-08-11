@@ -11,7 +11,7 @@ internal sealed partial class Player
 {
 	[Export] public bool Selected { get; set; }
 	[Export] public Vector2I MapPosition { get; set; }
-	[Export] public float Speed { get; set; } = 100.0F;
+	[Export] public float Speed { get; set; } = 50.0F;
 	
 	public List<Vector2I> MapPath { get; set; }
 	private Tween MyTween { get; set; }
@@ -44,7 +44,7 @@ internal sealed partial class Player
 		var duration = Position.DistanceTo(nextPosition) / Speed;
 		ResolveAnimation(nextPosition);
 		MyTween = CreateTween();
-		MyTween.TweenProperty(this, "position", nextPosition, duration);
+		MyTween.TweenProperty(this, nameof(Position).ToLower(), nextPosition, duration);
 	}
 
 	public void Move(Vector2 position)
