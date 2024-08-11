@@ -350,6 +350,7 @@ animations = [{
 
 [node name="Node2D" type="CharacterBody2D"]
 script = ExtResource("1_wn4ie")
+MapPosition = Vector2i(3, 1)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true

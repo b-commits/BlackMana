@@ -25,5 +25,6 @@ internal interface ISelectable
 
 internal interface IMovable
 {
+    public List<Vector2I> MapPath { get; set; }
     void SetPath(List<Vector2I> path);
 }

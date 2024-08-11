@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using Sandbox.AutoLoads;
 using Sandbox.Common.Actions;
 using Sandbox.Common.AStarGridProvider;
 using Sandbox.Common.MouseDeviceController;
@@ -10,21 +11,22 @@ namespace Sandbox.Scenes.TileMap;
 
 internal sealed partial class TileMapHandler : Godot.TileMap
 {
-	private readonly IPathfinder _aStarGridProvider;
+	private IPathfinder _aStarGridProvider;
 	private ISelectableManager<Player.Player> _selectableManager;
-
-	public TileMapHandler()
-	{
-		_aStarGridProvider = new AStarGridPathfinder(GetUsedRect(), TileSet.TileSize);
-	}
-
+	private CustomSignals _customSignals;
+	
 	public override void _Ready()
 	{
-		var player1 = GetNode<Player.Player>("Player");
-		var player2 = GetNode<Player.Player>("Player2");
-		player1.Selected = true;
-		var characters = new List<Player.Player> { player1, player2 };
-		_selectableManager = new SelectableManager<Player.Player>(characters);
+		_aStarGridProvider = new AStarGridPathfinder(GetUsedRect(), TileSet.TileSize);
+		_customSignals = GetNode<CustomSignals>(CustomSignals.ScenePath);
+		
+		_customSignals.RequestMove += OnMoveRequested;
+		_selectableManager = new SelectableManager<Player.Player>(SeedPlayers());
+	}
+
+	private void OnMoveRequested(Vector2I position)
+	{
+		_selectableManager.GetActive().Move(MapToLocal(position));
 	}
 	
 	public override void _Input(InputEvent @event)
@@ -40,12 +42,23 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 	{
 		var coordsSelectable = _selectableManager.SelectByCoords(mapCoords);
 
-		if (coordsSelectable is null && _selectableManager.HasActive())
-		{
-			var mapPath = _aStarGridProvider.GetPath(_selectableManager.GetActive().MapPosition, 
-				mapCoords);
-			_selectableManager.GetActive().SetPath(mapPath);
-		}
+		if (coordsSelectable is not null || !_selectableManager.HasActive()) 
+			return;
+		
+		var mapPath = _aStarGridProvider.GetPath(_selectableManager.GetActive().MapPosition, 
+			mapCoords);
+		_selectableManager.GetActive().SetPath(mapPath);
+	}
+
+	private List<Player.Player> SeedPlayers()
+	{
+		var player = GetNode<Player.Player>("Player");
+		var companion = GetNode<Player.Player>("Player2");
+		player.MapPosition = new Vector2I(0, 1);
+		companion.MapPosition = new Vector2I(3, 1);
+		
+		companion.Selected = true;
+		return new List<Player.Player> { player, companion };
 	}
 	
 	private void RemoveTile()
@@ -57,10 +70,4 @@ internal sealed partial class TileMapHandler : Godot.TileMap
 		layers.ForEach(layer => GD.Print(GetUsedCells(layer)));
 	}
 	
-	private void PrintMouseDebugInformation()
-	{
-		GD.Print("Global " + (Vector2I)GetGlobalMousePosition());
-		GD.Print("Local: " + (Vector2I)GetLocalMousePosition());
-		GD.Print("Map: " + LocalToMap(GetLocalMousePosition()));
-	}
 }

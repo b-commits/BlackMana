@@ -15,6 +15,10 @@ run/main_scene="res://Scenes/TileMap/TileMap.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://TileSheet.png"
 
+[autoload]
+
+CustomSignals="*res://AutoLoads/CustomSignals.cs"
+
 [dotnet]
 
 project/assembly_name="Sandbox"
