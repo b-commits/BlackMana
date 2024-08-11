@@ -6,9 +6,6 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Premise.md" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Remove="AStarProvider\**" />
   </ItemGroup>
   <ItemGroup>
