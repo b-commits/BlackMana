@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Godot;
 using BlackMana.AutoLoads;
 using BlackMana.Common.Interfaces;
@@ -11,8 +12,9 @@ internal sealed partial class Player
 {
     [Export] public bool Selected { get; set; }
     [Export] public Vector2I MapPosition { get; set; }
-    [Export] public float Speed { get; set; } = 50.0F;
-
+    [Export] public float Speed { get; set; } = 75.0F;
+    [Export] public float AnimationTimeOffset { get; set; } = 0.5F;
+    
     public List<Vector2I> MapPath { get; set; }
     private Tween MyTween { get; set; }
 
@@ -47,16 +49,20 @@ internal sealed partial class Player
         MyTween.TweenProperty(this, nameof(Position).ToLower(), nextPosition, duration);
     }
 
-    public void Move(Vector2 position)
+    public async void Move(Vector2 position)
     {
         MapPosition = MapPath[0];
         TweenPosition(position);
         MapPath.RemoveAt(0);
-
+        await OffsetAnimationChange();
+        
         if (MapPath.Count == 0)
             OnSelect();
     }
 
+    private async Task OffsetAnimationChange() 
+        => await ToSignal(GetTree().CreateTimer(AnimationTimeOffset), SceneTreeTimer.SignalName.Timeout);
+    
     public void ResolveAnimation(Vector2 nextMapPosition)
     {
         var animation = GetAnimation(nextMapPosition);
@@ -65,8 +71,8 @@ internal sealed partial class Player
 
     public Action GetAnimation(Vector2 nextMapPosition)
     {
-        var deltaX = nextMapPosition.X - MapPosition.X;
-        var deltaY = nextMapPosition.Y - MapPosition.Y;
+        var deltaX = nextMapPosition.X - Position.X;
+        var deltaY = nextMapPosition.Y - Position.Y;
 
         return (deltaX, deltaY) switch
         {

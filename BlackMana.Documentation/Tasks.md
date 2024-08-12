@@ -19,7 +19,7 @@
 
 ### Bugs
 
-- [ ] **BM-B-1**: Fix the resolution of movement animation
+- [X] **BM-B-1**: Fix the resolution of movement animation
 - [ ] **BM-B-2**: Fix movement when 
 - [X] **BM-B-3**: Fix coordinate resolution after movement re-work
 - [X] **BM-B-4**: Fix character movement (incorrect tile getting selected)

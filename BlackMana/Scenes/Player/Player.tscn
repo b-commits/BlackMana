@@ -353,15 +353,16 @@ animations = [{
 [node name="Node2D" type="CharacterBody2D"]
 script = ExtResource("1_wn4ie")
 MapPosition = Vector2i(3, 1)
+AnimationTimeOffset = 0.6
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true
 texture_filter = 1
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_uiprc")
-animation = &"WalkNWSelected"
+animation = &"WalkWSelected"
 autoplay = "IdleFrame"
-frame_progress = 0.26936
+frame_progress = 0.823931
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_kuili")
