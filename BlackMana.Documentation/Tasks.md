@@ -9,17 +9,19 @@
   determine what the affected selectable is
     - Tile hue should be changed programatically to avoid having to add
       too many alternative textures
-- [ ] **BM-3**: Implement scrollable camera that follows active selectable
+- [X] **BM-3**: Implement scrollable camera that follows active selectable and move it to separate
+scene
 - [ ] **BM-4**: Implement a rudimentary dialogue box
 - [X] **BM-5**: Add documentation project
 - [X] **BM-6**: Rename project files
 - [ ] **BM-7**: Implement debug mode (additional logging). Can you some kind of interceptor
+- [ ] **BM-8**: Add a tween to smooth camera movement
 
 ---
 
 ### Bugs
 
-- [ ] **BM-B-1**: Fix the resolution of movement animation
+- [X] **BM-B-1**: Fix the resolution of movement animation
 - [ ] **BM-B-2**: Fix movement when 
 - [X] **BM-B-3**: Fix coordinate resolution after movement re-work
 - [X] **BM-B-4**: Fix character movement (incorrect tile getting selected)
