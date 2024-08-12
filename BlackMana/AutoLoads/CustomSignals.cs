@@ -14,7 +14,7 @@ internal sealed partial class CustomSignals : Node, ICustomSignals
 
     [Signal] public delegate void RequestMoveEventHandler(RequestMoveEvent requestMoveEvent);
     [Signal] public delegate void PrintMapPositionEventHandler(Vector2 localPosition);
-
+    
     public void EmitRequestMove(RequestMoveEvent requestMoveEvent)
         => EmitSignal(SignalName.RequestMove, requestMoveEvent);
 
