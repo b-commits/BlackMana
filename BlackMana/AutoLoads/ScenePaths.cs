@@ -1,6 +1,6 @@
 namespace BlackMana.AutoLoads;
 
-internal static class Common
+internal static class ScenePaths
 {
     internal const string RootPath = "/root";
 }

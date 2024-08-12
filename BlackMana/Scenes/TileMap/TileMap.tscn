@@ -66,10 +66,10 @@ script = ExtResource("3_gqx11")
 [node name="Player" parent="." instance=ExtResource("4_lr3yg")]
 z_index = 5
 texture_repeat = 1
-position = Vector2(0, 16)
+position = Vector2(0, 17)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(0, 16)
+position = Vector2(-6, 0)
 zoom = Vector2(8, 8)
 script = ExtResource("5_5r04t")
 

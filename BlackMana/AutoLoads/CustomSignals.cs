@@ -10,11 +10,11 @@ internal interface ICustomSignals
 
 internal sealed partial class CustomSignals : Node, ICustomSignals
 {
-    internal const string ScenePath = $"{Common.RootPath}/CustomSignals";
+    internal const string ScenePath = $"{ScenePaths.RootPath}/CustomSignals";
 
     [Signal] public delegate void RequestMoveEventHandler(RequestMoveEvent requestMoveEvent);
     [Signal] public delegate void PrintMapPositionEventHandler(Vector2 localPosition);
-
+    
     public void EmitRequestMove(RequestMoveEvent requestMoveEvent)
         => EmitSignal(SignalName.RequestMove, requestMoveEvent);
 

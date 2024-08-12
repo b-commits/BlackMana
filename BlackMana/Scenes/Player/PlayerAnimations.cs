@@ -10,6 +10,7 @@ internal static class PlayerAnimations
     internal const string WalkSSelected = "WalkSSelected";
     internal const string WalkWSelected = "WalkWSelected";
     internal const string WalkESelected = "WalkESelected";
+    
     internal const string IdleFrame = "IdleFrame";
     internal const string IdleSelectedFrame = "IdleSelectedFrame";
 }
