@@ -14,7 +14,7 @@ internal sealed partial class Player
     [Export] public Vector2I MapPosition { get; set; }
     [Export] public float Speed { get; set; } = 75.0F;
     [Export] public float AnimationTimeOffset { get; set; } = 0.5F;
-    
+
     public List<Vector2I> MapPath { get; set; }
     private Tween MyTween { get; set; }
 
@@ -55,14 +55,14 @@ internal sealed partial class Player
         TweenPosition(position);
         MapPath.RemoveAt(0);
         await OffsetAnimationChange();
-        
+
         if (MapPath.Count == 0)
             OnSelect();
     }
 
-    private async Task OffsetAnimationChange() 
+    private async Task OffsetAnimationChange()
         => await ToSignal(GetTree().CreateTimer(AnimationTimeOffset), SceneTreeTimer.SignalName.Timeout);
-    
+
     public void ResolveAnimation(Vector2 nextMapPosition)
     {
         var animation = GetAnimation(nextMapPosition);
