@@ -16,14 +16,16 @@ scene
 - [X] **BM-6**: Rename project files
 - [ ] **BM-7**: Implement debug mode (additional logging). Can use some kind of interceptor
 - [ ] **BM-8**: Add a tween to smooth camera movement
-- [ ] **BM-9**: Implement physics-based movement 
-- [ ] **BM-10**: Implement outside-combat collisions
+- [ ] **BM-9**: Implement physics-based movement | <span style="color:red">**P1**
+- [ ] **BM-10**: Implement outside-combat collisions | <span style="color:red">**P1**
+- [ ] **BM-11**</span>: Switch between characters with 1-5 buttons
+- [ ] **BM-12**: Reset map state
 ---
 
 ### Bugs
 
 - [X] **BM-B-1**: Fix the resolution of movement animation
-- [ ] **BM-B-2**: Fix movement when 
+- [ ] **BM-B-2**: Fix being able to have to active characters at the same time
 - [X] **BM-B-3**: Fix coordinate resolution after movement re-work
 - [X] **BM-B-4**: Fix character movement (incorrect tile getting selected)
 - [X] **BM-B-5**: Fix an issue with character not being able to trace back

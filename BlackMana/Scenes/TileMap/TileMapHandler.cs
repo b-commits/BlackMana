@@ -68,6 +68,7 @@ internal sealed partial class TileMapHandler
         var companion = GetNode<Player.Player>("Player2");
         player.MapPosition = new Vector2I(0, 1);
         companion.MapPosition = new Vector2I(3, 1);
+        player.OnSelect();
 
         player.Selected = true;
         return new List<Player.Player> { player, companion };

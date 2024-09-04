@@ -8,4 +8,5 @@ internal static class ActionProvider
     public const string ShiftLeftMouseButton = "ShiftLeftMouseButton";
     public const string MouseWheelIn = "MouseWheelIn";
     public const string MouseWheelOut = "MouseWheelOut";
+    public const string KeyR = "KeyR";
 }

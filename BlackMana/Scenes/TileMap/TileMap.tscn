@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dl06w3s4r0tkw"]
+[gd_scene load_steps=12 format=3 uid="uid://dl06w3s4r0tkw"]
 
 [ext_resource type="Texture2D" uid="uid://4m7g7lkvhv56" path="res://Scenes/TileMap/Sprite-0002.png" id="1_vqk2o"]
 [ext_resource type="Texture2D" uid="uid://cl3u6pi2mbvnq" path="res://Tilesheet.png" id="2_hdd8w"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://ceefnkk6vcurv" path="res://Scenes/Player/Player.tscn" id="4_lr3yg"]
 [ext_resource type="Script" path="res://Scenes/TileMap/Camera.cs" id="5_5r04t"]
 [ext_resource type="PackedScene" uid="uid://ct5ajt2ckgc0k" path="res://Scenes/Enemy/Enemy.tscn" id="6_pdbgu"]
+[ext_resource type="PackedScene" uid="uid://oqon1ti61qbp" path="res://Scenes/DialogueBox/DialogueBox.tscn" id="7_dpoox"]
+[ext_resource type="PackedScene" uid="uid://c52naas7ske20" path="res://Common/SelectableManager/SelectableManager.tscn" id="8_duhow"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2alp8"]
 resource_name = "ManaTileAnimation"
@@ -83,3 +85,11 @@ position = Vector2(-48, 40)
 z_index = 5
 texture_repeat = 1
 position = Vector2(48, 39)
+
+[node name="DialogueBox" parent="." instance=ExtResource("7_dpoox")]
+offset_left = 9.0
+offset_top = -36.0
+offset_right = 47.0
+offset_bottom = -36.0
+
+[node name="SelectableManager" parent="." instance=ExtResource("8_duhow")]
