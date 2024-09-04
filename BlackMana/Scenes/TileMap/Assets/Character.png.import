@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bni36csv82ry6"
-path="res://.godot/imported/Character.png-ea3df2124eb3bb86b5c30d4c982a6dff.ctex"
+uid="uid://c4als2bm0i8p8"
+path="res://.godot/imported/Character.png-151366784e53219e354036d0cc8f9117.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/World/Character.png"
-dest_files=["res://.godot/imported/Character.png-ea3df2124eb3bb86b5c30d4c982a6dff.ctex"]
+source_file="res://Scenes/TileMap/Assets/Character.png"
+dest_files=["res://.godot/imported/Character.png-151366784e53219e354036d0cc8f9117.ctex"]
 
 [params]
 

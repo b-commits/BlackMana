@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bs1elulbj5ntb"
-path="res://.godot/imported/playermovement-sheet.png-151c49334e2525d230360ef3d1c180c2.ctex"
+path="res://.godot/imported/playermovement-sheet.png-c54eb25c1a9b3e716cc51f69c25ea1b4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Player/playermovement-sheet.png"
-dest_files=["res://.godot/imported/playermovement-sheet.png-151c49334e2525d230360ef3d1c180c2.ctex"]
+source_file="res://Scenes/Player/Assets/playermovement-sheet.png"
+dest_files=["res://.godot/imported/playermovement-sheet.png-c54eb25c1a9b3e716cc51f69c25ea1b4.ctex"]
 
 [params]
 
