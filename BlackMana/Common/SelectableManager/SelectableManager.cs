@@ -11,6 +11,7 @@ internal interface ISelectableManager<T> where T : class, ISelectable
     T GetActive();
     T Select(T selectable);
     List<T> GetAll();
+    List<T> GetInactive();
     bool HasActive();
 }
 
@@ -41,7 +42,10 @@ internal sealed class SelectableManager<T> : ISelectableManager<T>
     }
 
     public List<T> GetAll() => selectables;
-
+    
+    public List<T> GetInactive()
+        => selectables.Where(x => !x.Selected).ToList();
+    
     public bool HasActive() => selectables.Exists(x => x.Selected);
 
     public T GetActive() => selectables.SingleOrDefault(x => x.Selected);

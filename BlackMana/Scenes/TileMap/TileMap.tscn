@@ -66,7 +66,7 @@ script = ExtResource("3_gqx11")
 [node name="Player" parent="." instance=ExtResource("4_lr3yg")]
 z_index = 5
 texture_repeat = 1
-position = Vector2(0, 17)
+position = Vector2(0, 15)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(-6, 0)
@@ -82,4 +82,4 @@ position = Vector2(-48, 40)
 [node name="Player2" parent="." instance=ExtResource("4_lr3yg")]
 z_index = 5
 texture_repeat = 1
-position = Vector2(24, 48)
+position = Vector2(48, 39)

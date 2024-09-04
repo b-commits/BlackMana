@@ -14,9 +14,10 @@ scene
 - [ ] **BM-4**: Implement a rudimentary dialogue box
 - [X] **BM-5**: Add documentation project
 - [X] **BM-6**: Rename project files
-- [ ] **BM-7**: Implement debug mode (additional logging). Can you some kind of interceptor
+- [ ] **BM-7**: Implement debug mode (additional logging). Can use some kind of interceptor
 - [ ] **BM-8**: Add a tween to smooth camera movement
-
+- [ ] **BM-9**: Implement physics-based movement 
+- [ ] **BM-10**: Implement outside-combat collisions
 ---
 
 ### Bugs
@@ -25,4 +26,4 @@ scene
 - [ ] **BM-B-2**: Fix movement when 
 - [X] **BM-B-3**: Fix coordinate resolution after movement re-work
 - [X] **BM-B-4**: Fix character movement (incorrect tile getting selected)
-- [ ] **BM-B-5**: 
+- [X] **BM-B-5**: Fix an issue with character not being able to trace back

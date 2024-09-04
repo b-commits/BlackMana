@@ -354,7 +354,6 @@ animations = [{
 script = ExtResource("1_wn4ie")
 MapPosition = Vector2i(3, 1)
 Speed = 80.0
-AnimationTimeOffset = 0.6
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 y_sort_enabled = true

@@ -16,7 +16,7 @@ internal sealed partial class Player
     [Export] public float AnimationTimeOffset { get; set; } = 0.5F;
 
     public List<Vector2I> MapPath { get; set; }
-    private Tween MyTween { get; set; }
+    private Tween MovementTween { get; set; }
 
     private ICustomSignals _customSignals;
 
@@ -34,23 +34,18 @@ internal sealed partial class Player
 
     public void MoveByPath()
     {
-        if (MyTween is not null && MyTween.IsRunning())
+        if (MovementTween is not null && MovementTween.IsRunning())
             return;
 
         var requestMoveEvent = new RequestMoveEvent { CurrentMapPosition = MapPosition, NextMapPosition = MapPath[0] };
         _customSignals.EmitRequestMove(requestMoveEvent);
     }
 
-    public void TweenPosition(Vector2 nextPosition)
-    {
-        var duration = Position.DistanceTo(nextPosition) / Speed;
-        ResolveAnimation(nextPosition);
-        MyTween = CreateTween();
-        MyTween.TweenProperty(this, nameof(Position).ToLower(), nextPosition, duration);
-    }
-
     public async void Move(Vector2 position)
     {
+        if (MapPath.Count == 0)
+            return;
+
         MapPosition = MapPath[0];
         TweenPosition(position);
         MapPath.RemoveAt(0);
@@ -58,6 +53,14 @@ internal sealed partial class Player
 
         if (MapPath.Count == 0)
             OnSelect();
+    }
+
+    public void TweenPosition(Vector2 nextPosition)
+    {
+        var duration = Position.DistanceTo(nextPosition) / Speed;
+        ResolveAnimation(nextPosition);
+        MovementTween = CreateTween();
+        MovementTween.TweenProperty(this, nameof(Position).ToLower(), nextPosition, duration);
     }
 
     private async Task OffsetAnimationChange()
@@ -92,6 +95,8 @@ internal sealed partial class Player
 
     private AnimatedSprite2D GetAnimatedSprite() => GetNode<AnimatedSprite2D>(nameof(AnimatedSprite2D));
 
+    #region Animations
+
     private void PlayWalkSE() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSESelected;
     private void PlayWalkSW() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSWSelected;
     private void PlayWalkS() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSSelected;
@@ -102,4 +107,6 @@ internal sealed partial class Player
     private void PlayWalkN() => GetAnimatedSprite().Animation = PlayerAnimations.WalkNSelected;
     public void OnSelect() => GetAnimatedSprite().Animation = PlayerAnimations.IdleSelectedFrame;
     public void OnDeselect() => GetAnimatedSprite().Animation = PlayerAnimations.IdleFrame;
+
+    #endregion
 }
