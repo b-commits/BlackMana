@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c52naas7ske20"]
-
-[ext_resource type="Script" path="res://Common/SelectableManager/SelectableManager.cs" id="1_s2x70"]
-
-[node name="SelectableManager" type="Node2D"]
-script = ExtResource("1_s2x70")

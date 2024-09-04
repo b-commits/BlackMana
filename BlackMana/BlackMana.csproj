@@ -6,9 +6,6 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <EmbeddedResource Remove="AStarProvider\**" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Scenes\" />
   </ItemGroup>
 </Project>

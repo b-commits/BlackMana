@@ -4,7 +4,7 @@ using Godot;
 using BlackMana.AutoLoads;
 using BlackMana.Common.Actions;
 using BlackMana.Common.AStarGridProvider;
-using BlackMana.Common.SelectableManager;
+using BlackMana.Scenes.SelectableManager;
 
 namespace BlackMana.Scenes.TileMap;
 

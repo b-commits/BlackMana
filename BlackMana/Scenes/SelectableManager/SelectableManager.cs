@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using BlackMana.Common.Actions;
-using Godot;
 using BlackMana.Common.Interfaces;
+using Godot;
 
-namespace BlackMana.Common.SelectableManager;
+namespace BlackMana.Scenes.SelectableManager;
 
 internal interface ISelectableManager<T> where T : class, ISelectable 
 {
@@ -25,15 +25,15 @@ internal sealed partial class SelectableManager<T> : Node2D, ISelectableManager<
     {
         this.selectables = selectables;
     }
-    
-    public SelectableManager() { }
+
+    public SelectableManager() {  }
 
     public override void _Input(InputEvent @event)
     {
         if (@event.IsActionPressed(ActionProvider.KeyR))
         {
             GD.Print("Pressed R");
-            SelectNext();
+            var nextPlayer = SelectNext();
         }
     }
 
@@ -43,7 +43,7 @@ internal sealed partial class SelectableManager<T> : Node2D, ISelectableManager<
         return selectable is null ? null : Select(selectable);
     }
 
-    public T SelectNext()
+    private T SelectNext()
     {
         var currentSelectable = GetActive();
         var currentIndex = selectables.IndexOf(currentSelectable);
@@ -56,8 +56,8 @@ internal sealed partial class SelectableManager<T> : Node2D, ISelectableManager<
         var selectable = selectables[index];
         return Select(selectable);
     }
-    
-    public T Select(T selectable)
+
+    private T Select(T selectable)
     {
         if (GetActive() == selectable)
             return selectable;

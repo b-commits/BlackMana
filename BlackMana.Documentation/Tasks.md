@@ -20,6 +20,7 @@ scene
 - [ ] **BM-10**: Implement outside-combat collisions | <span style="color:red">**P1**
 - [ ] **BM-11**</span>: Switch between characters with 1-5 buttons
 - [ ] **BM-12**: Reset map state
+- [X] **BM-13**: Move assets to separate folders
 ---
 
 ### Bugs
