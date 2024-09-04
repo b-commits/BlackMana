@@ -7,6 +7,7 @@ namespace BlackMana.Common.Interfaces;
 internal interface IMovable
 {
     public List<Vector2I> MapPath { get; set; }
+    public bool IsMoving { get; set; }
     void SetPath(List<Vector2I> path);
     void MoveByPath();
     void ResolveAnimation(Vector2 nextMapPosition);

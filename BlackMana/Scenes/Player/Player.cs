@@ -16,8 +16,8 @@ internal sealed partial class Player
     [Export] public float AnimationTimeOffset { get; set; } = 0.5F;
 
     public List<Vector2I> MapPath { get; set; }
+    public bool IsMoving { get; set; }
     private Tween MovementTween { get; set; }
-
     private ICustomSignals _customSignals;
 
     public override void _Ready()
@@ -28,8 +28,16 @@ internal sealed partial class Player
 
     public override void _Process(double delta)
     {
-        if (MapPath is not null && MapPath.Count != 0)
+        if (MapPath is not null && MapPath.Count != 0 && Selected)
+        {
+            IsMoving = true;
             MoveByPath();
+        }
+        else
+        {
+            IsMoving = false;
+        }
+       
     }
 
     public void MoveByPath()
@@ -79,15 +87,9 @@ internal sealed partial class Player
 
         return (deltaX, deltaY) switch
         {
-            (0, < 0) => PlayWalkN,
-            (0, > 0) => PlayWalkS,
-            (< 0, 0) => PlayWalkW,
-            (> 0, 0) => PlayWalkE,
-            (> 0, < 0) => PlayWalkNE,
-            (< 0, < 0) => PlayWalkNW,
-            (> 0, > 0) => PlayWalkSE,
-            (< 0, > 0) => PlayWalkSW,
-            _ => () => { }
+            (0, < 0) => PlayWalkN, (0, > 0) => PlayWalkS, (< 0, 0) => PlayWalkW,
+            (> 0, 0) => PlayWalkE, (> 0, < 0) => PlayWalkNE, (< 0, < 0) => PlayWalkNW,
+            (> 0, > 0) => PlayWalkSE, (< 0, > 0) => PlayWalkSW, _ => () => { }
         };
     }
 

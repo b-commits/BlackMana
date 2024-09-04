@@ -6,58 +6,66 @@ using Godot;
 
 namespace BlackMana.Scenes.SelectableManager;
 
-internal interface ISelectableManager<T> where T : class, ISelectable 
+internal interface ISelectableManager
 {
-    T SelectByCoords(Vector2I mapCoords);
-    T GetActive();
-    T SelectByIndex(int index);
-    List<T> GetAll();
-    List<T> GetInactive();
+    ISelectable SelectByCoords(Vector2I mapCoords);
+    ISelectable GetActive();
+    
+    ISelectable SelectByIndex(int index);
+    List<ISelectable> GetAll();
+    IEnumerable<ISelectable> GetInactive();
     bool HasActive();
+    bool IsAnySelectableMoving();
 }
 
-internal sealed partial class SelectableManager<T> : Node2D, ISelectableManager<T>
-    where T : Node2D, ISelectable
+internal sealed partial class SelectableManager : Node2D, ISelectableManager
 {
-    private readonly List<T> selectables;
+    private readonly List<ISelectable> selectables;
 
-    public SelectableManager(List<T> selectables)
+    public SelectableManager(List<ISelectable> selectables)
     {
         this.selectables = selectables;
     }
-
-    public SelectableManager() {  }
+    
+    public SelectableManager() { }
 
     public override void _Input(InputEvent @event)
     {
-        if (@event.IsActionPressed(ActionProvider.KeyR))
-        {
-            GD.Print("Pressed R");
-            var nextPlayer = SelectNext();
-        }
+        if (!@event.IsActionPressed(ActionProvider.KeyR)) 
+            return;
+
+        SelectNext();
     }
 
-    public T SelectByCoords(Vector2I mapCoords)
+    public ISelectable SelectByCoords(Vector2I mapCoords)
     {
         var selectable = selectables.SingleOrDefault(x => x.MapPosition == mapCoords);
         return selectable is null ? null : Select(selectable);
     }
 
-    private T SelectNext()
+    private ISelectable SelectNext()
     {
         var currentSelectable = GetActive();
         var currentIndex = selectables.IndexOf(currentSelectable);
 
-        return currentIndex + 1 < selectables.Count ? SelectByIndex(currentIndex + 1) : Select(selectables[0]);
+        return currentIndex + 1 < selectables.Count 
+            ? SelectByIndex(currentIndex + 1) 
+            : Select(selectables[0]);
     }
 
-    public T SelectByIndex(int index)
+    public bool IsAnySelectableMoving()
+    {
+        var players = GetAll();
+        return players.OfType<Player.Player>().Any(player => player.IsMoving);
+    }
+
+    public ISelectable SelectByIndex(int index)
     {
         var selectable = selectables[index];
         return Select(selectable);
     }
 
-    private T Select(T selectable)
+    private ISelectable Select(ISelectable selectable)
     {
         if (GetActive() == selectable)
             return selectable;
@@ -67,14 +75,14 @@ internal sealed partial class SelectableManager<T> : Node2D, ISelectableManager<
         return selectable;
     }
     
-    public List<T> GetAll() => selectables;
+    public List<ISelectable> GetAll() => selectables;
     
-    public List<T> GetInactive()
+    public IEnumerable<ISelectable> GetInactive()
         => selectables.Where(x => !x.Selected).ToList();
     
     public bool HasActive() => selectables.Exists(x => x.Selected);
 
-    public T GetActive() => selectables.SingleOrDefault(x => x.Selected);
+    public ISelectable GetActive() => selectables.SingleOrDefault(x => x.Selected);
 
     private void DeselectCurrentSelectable() => GetActive().Deselect();
 }
