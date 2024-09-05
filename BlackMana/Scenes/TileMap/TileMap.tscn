@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://Scenes/Camera/Camera.cs" id="5_5r04t"]
 [ext_resource type="PackedScene" uid="uid://ct5ajt2ckgc0k" path="res://Scenes/Enemy/Enemy.tscn" id="6_pdbgu"]
 [ext_resource type="PackedScene" uid="uid://oqon1ti61qbp" path="res://Scenes/DialogueBox/DialogueBox.tscn" id="7_dpoox"]
-[ext_resource type="PackedScene" uid="uid://c52naas7ske20" path="res://Scenes/SelectableManager/SelectableManager.tscn" id="8_duhow"]
+[ext_resource type="PackedScene" uid="uid://dufn8f5muqnfx" path="res://Scenes/SelectableProvider/SelectableManager.tscn" id="8_duhow"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2alp8"]
 resource_name = "ManaTileAnimation"
@@ -93,3 +93,4 @@ offset_right = 47.0
 offset_bottom = -36.0
 
 [node name="SelectableManager" parent="." instance=ExtResource("8_duhow")]
+unique_name_in_owner = true

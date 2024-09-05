@@ -5,7 +5,7 @@ using BlackMana.AutoLoads;
 using BlackMana.Common.Actions;
 using BlackMana.Common.AStarGridProvider;
 using BlackMana.Common.Interfaces;
-using BlackMana.Scenes.SelectableManager;
+using BlackMana.Scenes.SelectableProvider;
 
 namespace BlackMana.Scenes.TileMap;
 
@@ -13,7 +13,7 @@ internal sealed partial class TileMapHandler
     : Godot.TileMap
 {
     private IPathfinder _aStarGridProvider;
-    private ISelectableManager _selectableManager;
+    private SelectableManager _selectableManager;
     private IMouseController _mouseController;
     private CustomSignals _customSignals;
 
@@ -22,7 +22,8 @@ internal sealed partial class TileMapHandler
         _aStarGridProvider = new AStarGridPathfinder(GetUsedRect(), TileSet.TileSize);
         _mouseController = GetNode<IMouseController>(MouseController.ScenePath);
         _customSignals = GetNode<CustomSignals>(CustomSignals.ScenePath);
-        _selectableManager = new SelectableManager.SelectableManager(GetSeededPlayers());
+        _selectableManager = GetNode<SelectableManager>("%SelectableManager");
+        _selectableManager.SetSelectables(GetSeededPlayers());
         RegisterEventHandlers();
     }
 
@@ -72,8 +73,8 @@ internal sealed partial class TileMapHandler
     {
         var player = GetNode<ISelectable>("Player");
         var companion = GetNode<ISelectable>("Player2");
-        player.MapPosition = new Vector2I(0, 1);
-        companion.MapPosition = new Vector2I(3, 1);
+        player.MapPosition = Vector2I.Zero;
+        companion.MapPosition = new Vector2I(Vector2I.Zero.X, Vector2I.Zero.Y + 1);
         player.OnSelect();
 
         player.Selected = true;

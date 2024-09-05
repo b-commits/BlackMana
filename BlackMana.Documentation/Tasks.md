@@ -18,7 +18,7 @@ scene
 - [ ] **BM-8**: Add a tween to smooth camera movement
 - [ ] **BM-9**: Implement physics-based movement | <span style="color:red">**P1**
 - [ ] **BM-10**: Implement outside-combat collisions | <span style="color:red">**P1**
-- [ ] **BM-11**</span>: Switch between characters with 1-5 buttons
+- [X] **BM-11**</span>: Switch between characters with a button
 - [ ] **BM-12**: Reset map state
 - [X] **BM-13**: Move assets to separate folders
 - [X] **BM-14**: Prevent switching selectables while another selectable is moving

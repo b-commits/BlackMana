@@ -10,7 +10,7 @@ internal interface IMouseController
 
 internal sealed partial class MouseController : Node2D, IMouseController
 {
-    public const string ScenePath = $"{ScenePaths.RootPath}/MouseController";
+    public const string ScenePath = $"{ScenePaths.Root}/{nameof(MouseController)}";
 
     private ICustomSignals _customSignals;
 
