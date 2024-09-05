@@ -20,18 +20,25 @@ internal sealed partial class SelectableManager : Node2D, ISelectableManager
 
     public ISelectable SelectByCoords(Vector2I mapCoords)
     {
+        if (IsAnySelectableMoving())
+            return null;
+        
         var selectable = _selectables.SingleOrDefault(x => x.MapPosition == mapCoords);
         return selectable is null ? null : Select(selectable);
     }
 
-    private ISelectable SelectNext()
+    private void SelectNext()
     {
+        if (IsAnySelectableMoving())
+            return;
+        
         var currentSelectable = GetActive();
         var currentIndex = _selectables.IndexOf(currentSelectable);
 
-        return currentIndex + 1 < _selectables.Count 
-            ? SelectByIndex(currentIndex + 1) 
-            : Select(_selectables[0]);
+        if (currentIndex + 1 < _selectables.Count)
+            SelectByIndex(currentIndex + 1);
+        else
+            Select(_selectables[0]);
     }
 
     public bool IsAnySelectableMoving()

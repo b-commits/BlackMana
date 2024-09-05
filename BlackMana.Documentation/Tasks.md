@@ -9,6 +9,7 @@
   determine what the affected selectable is
     - Tile hue should be changed programatically to avoid having to add
       too many alternative textures
+    - Add the ability to double-click on a tile to confirm movement
 - [X] **BM-3**: Implement scrollable camera that follows active selectable and move it to separate
 scene
 - [ ] **BM-4**: Implement a rudimentary dialogue box

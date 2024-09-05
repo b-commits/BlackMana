@@ -22,7 +22,7 @@ internal sealed partial class TileMapHandler
         _aStarGridProvider = new AStarGridPathfinder(GetUsedRect(), TileSet.TileSize);
         _mouseController = GetNode<IMouseController>(MouseController.ScenePath);
         _customSignals = GetNode<CustomSignals>(CustomSignals.ScenePath);
-        _selectableManager = GetNode<SelectableManager>("%SelectableManager");
+        _selectableManager = GetNode<SelectableManager>($"%{nameof(SelectableManager)}");
         _selectableManager.SetSelectables(GetSeededPlayers());
         RegisterEventHandlers();
     }
@@ -53,9 +53,6 @@ internal sealed partial class TileMapHandler
 
     private void SelectCell(Vector2I mapCoords)
     {
-        if (_selectableManager.IsAnySelectableMoving())
-            return;
-        
         var selectableAtCoords = _selectableManager.SelectByCoords(mapCoords);
         if (selectableAtCoords is not null || !_selectableManager.HasActive())
             return;
@@ -73,8 +70,8 @@ internal sealed partial class TileMapHandler
     {
         var player = GetNode<ISelectable>("Player");
         var companion = GetNode<ISelectable>("Player2");
-        player.MapPosition = Vector2I.Zero;
-        companion.MapPosition = new Vector2I(Vector2I.Zero.X, Vector2I.Zero.Y + 1);
+        player.MapPosition = new Vector2I(0, 1);
+        companion.MapPosition = new Vector2I(3, 1);
         player.OnSelect();
 
         player.Selected = true;
