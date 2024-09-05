@@ -1,7 +1,7 @@
 using BlackMana.AutoLoads;
 using Godot;
 
-namespace BlackMana.Scenes.TileMap;
+namespace BlackMana.Scenes.Camera;
 
 internal sealed partial class Camera : Camera2D
 {

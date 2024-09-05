@@ -10,9 +10,8 @@ internal interface ISelectableManager
 {
     ISelectable SelectByCoords(Vector2I mapCoords);
     ISelectable GetActive();
-    
     ISelectable SelectByIndex(int index);
-    List<ISelectable> GetAll();
+    IEnumerable<ISelectable> GetAll();
     IEnumerable<ISelectable> GetInactive();
     bool HasActive();
     bool IsAnySelectableMoving();
@@ -69,13 +68,13 @@ internal sealed partial class SelectableManager : Node2D, ISelectableManager
     {
         if (GetActive() == selectable)
             return selectable;
-
+        
         DeselectCurrentSelectable();
         selectable.Select();
         return selectable;
     }
     
-    public List<ISelectable> GetAll() => selectables;
+    public IEnumerable<ISelectable> GetAll() => selectables;
     
     public IEnumerable<ISelectable> GetInactive()
         => selectables.Where(x => !x.Selected).ToList();

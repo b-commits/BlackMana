@@ -27,7 +27,7 @@ scene
 ### Bugs
 
 - [X] **BM-B-1**: Fix the resolution of movement animation
-- [ ] **BM-B-2**: Fix being able to have to active characters at the same time
+- [X] **BM-B-2**: Fix being able to have two active characters at the same time
 - [X] **BM-B-3**: Fix coordinate resolution after movement re-work
 - [X] **BM-B-4**: Fix character movement (incorrect tile getting selected)
 - [X] **BM-B-5**: Fix an issue with character not being able to trace back

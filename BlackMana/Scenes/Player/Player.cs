@@ -29,15 +29,9 @@ internal sealed partial class Player
     public override void _Process(double delta)
     {
         if (MapPath is not null && MapPath.Count != 0 && Selected)
-        {
-            IsMoving = true;
             MoveByPath();
-        }
         else
-        {
             IsMoving = false;
-        }
-       
     }
 
     public void MoveByPath()
@@ -45,6 +39,7 @@ internal sealed partial class Player
         if (MovementTween is not null && MovementTween.IsRunning())
             return;
 
+        IsMoving = true;
         var requestMoveEvent = new RequestMoveEvent { CurrentMapPosition = MapPosition, NextMapPosition = MapPath[0] };
         _customSignals.EmitRequestMove(requestMoveEvent);
     }
@@ -59,8 +54,11 @@ internal sealed partial class Player
         MapPath.RemoveAt(0);
         await OffsetAnimationChange();
 
-        if (MapPath.Count == 0)
+        if (MapPath.Count == 0 && Selected)
             OnSelect();
+        
+        if (MapPath.Count == 0 && !Selected)
+            OnDeselect();
     }
 
     public void TweenPosition(Vector2 nextPosition)
