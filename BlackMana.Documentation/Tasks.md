@@ -17,12 +17,14 @@ scene
 - [X] **BM-6**: Rename project files
 - [ ] **BM-7**: Implement debug mode (additional logging). Can use some kind of interceptor
 - [ ] **BM-8**: Add a tween to smooth camera movement
-- [ ] **BM-9**: Implement physics-based movement | <span style="color:red">**P1**
-- [ ] **BM-10**: Implement outside-combat collisions | <span style="color:red">**P1**
+- [X] **BM-9**: Implement physics-based movement | <span style="color:red">**P1**
+- [X] **BM-10**: Implement outside-combat collisions | <span style="color:red">**P1**
 - [X] **BM-11**</span>: Switch between characters with a button
 - [ ] **BM-12**: Reset map state
 - [X] **BM-13**: Move assets to separate folders
 - [X] **BM-14**: Prevent switching selectables while another selectable is moving
+- [ ] **BM-15**: Review whether I can put `MoveByPath` and `Move` code to `IMovable` from `Player` 
+- [ ] **BM-16**: `GetAnimation(Vector2 nextMapPosition)`: Move this code to some kind of an `AnimationResolver`; does not belong to the player class
 ---
 
 ### Bugs
@@ -32,3 +34,4 @@ scene
 - [X] **BM-B-3**: Fix coordinate resolution after movement re-work
 - [X] **BM-B-4**: Fix character movement (incorrect tile getting selected)
 - [X] **BM-B-5**: Fix an issue with character not being able to trace back
+- [ ] **BM-B-6**: Fix selected export not being applied from editor

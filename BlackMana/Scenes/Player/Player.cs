@@ -8,7 +8,7 @@ using BlackMana.Common.Interfaces;
 namespace BlackMana.Scenes.Player;
 
 internal sealed partial class Player
-    : Node2D, IMovable, ISelectable
+    : CharacterBody2D, IMovable, ISelectable
 {
     [Export] public bool Selected { get; set; }
     [Export] public Vector2I MapPosition { get; set; }
@@ -32,6 +32,40 @@ internal sealed partial class Player
             MoveByPath();
         else
             IsMoving = false;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (Selected) MoveWithPhysics();
+    }
+
+    private void MoveWithPhysics()
+    {
+        var inputDirection = new Vector2(
+            Input.GetActionStrength("ui_right") - Input.GetActionStrength("ui_left"),
+            Input.GetActionStrength("ui_down") - Input.GetActionStrength("ui_up")
+        );
+        Speed = 50.0F;
+        Velocity = inputDirection * Speed;
+        
+        var walkActions = new Dictionary<Vector2, Action>
+        {
+            { new Vector2(0, 1), PlayWalkS },
+            { new Vector2(-1, 0), PlayWalkW },
+            { new Vector2(1, 0), PlayWalkE },
+            { new Vector2(0, -1), PlayWalkN },
+            { new Vector2(-1, -1), PlayWalkNW },
+            { new Vector2(1, -1), PlayWalkNE },
+            { new Vector2(-1, 1), PlayWalkSW },
+            { new Vector2(1, 1), PlayWalkSE }
+        };
+        
+        if (walkActions.ContainsKey(inputDirection))
+        {
+            walkActions[inputDirection].Invoke();
+        }
+
+        MoveAndSlide();
     }
 
     public void MoveByPath()
@@ -77,7 +111,7 @@ internal sealed partial class Player
         var animation = GetAnimation(nextMapPosition);
         animation();
     }
-
+    
     public Action GetAnimation(Vector2 nextMapPosition)
     {
         var deltaX = nextMapPosition.X - Position.X;
