@@ -5,7 +5,7 @@ namespace BlackMana.Scenes.World;
 
 public partial class WorldHandler : Node2D
 {
-	private TileMapHandler TileMap;
+	private TileMapLayerHandler _tileMapLayer;
 	private Scenes.Player.Player player;
 	
 	public override void _Ready()

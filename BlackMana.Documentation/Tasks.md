@@ -25,6 +25,11 @@ scene
 - [X] **BM-14**: Prevent switching selectables while another selectable is moving
 - [ ] **BM-15**: Review whether I can put `MoveByPath` and `Move` code to `IMovable` from `Player` 
 - [ ] **BM-16**: `GetAnimation(Vector2 nextMapPosition)`: Move this code to some kind of an `AnimationResolver`; does not belong to the player class
+- [ ] **BM-17**: Implement the preview of the path
+  - It is indicated by a dot on the tile that will be traversed
+  - The last tile is additionally highlighted
+- [ ] **BM-18**: Implement character speed; i.e. how many tiles they can move 
+- [ ] **BM-19**: Implement highlighting tiles that can be moved to by a selectable
 ---
 
 ### Bugs

@@ -5,6 +5,7 @@ namespace BlackMana.AutoLoads;
 internal interface IMouseController
 {
     bool IsMouseClick(InputEvent inputEvent);
+    bool IsMouseHover(InputEvent inputEvent);
     void PrintMouseDebugInformation();
 }
 
@@ -20,10 +21,11 @@ internal sealed partial class MouseController : Node2D, IMouseController
     }
     
     public bool IsMouseClick(InputEvent inputEvent)
-    {
-        return inputEvent is InputEventMouseButton && inputEvent.IsPressed();
-    }
-
+        => inputEvent is InputEventMouseButton && inputEvent.IsPressed();
+    
+    public bool IsMouseHover(InputEvent inputEvent)
+        => inputEvent is InputEventMouseMotion;
+    
     public void PrintMouseDebugInformation()
     {
         GD.Print("Global " + GetGlobalMousePosition());
