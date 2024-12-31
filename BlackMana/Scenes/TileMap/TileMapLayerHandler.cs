@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -16,9 +15,11 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 	private SelectableManager _selectableManager;
 	private IMouseController _mouseController;
 	private CustomSignals _customSignals;
-
+	private TileDataModulator _tileDataModulator;
+	
 	public override void _Ready()
 	{
+		_tileDataModulator = new TileDataModulator(this);
 		_aStarGridProvider = new AStarGridPathfinder(GetUsedRect(), TileSet.TileSize);
 		_mouseController = GetNode<IMouseController>(MouseController.ScenePath);
 		_customSignals = GetNode<CustomSignals>(CustomSignals.ScenePath);
@@ -48,11 +49,9 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 			return;
 		
 		var mousePosition = GetLocalMousePosition();
-		
-		HighlightCell(LocalToMap(mousePosition));
 
 		if (@event.IsActionPressed(ActionProvider.LeftMouseButton))
-			SelectCell(LocalToMap(mousePosition));
+			_tileDataModulator.HighlightCell(LocalToMap(mousePosition));
 	}
 
 	private void SelectCell(Vector2I mapCoords)
@@ -65,11 +64,6 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 			_selectableManager.GetActive().MapPosition, mapCoords, GetOccupiedCells());
 		var activeSelectable = (Player.Player)_selectableManager.GetActive();
 		activeSelectable.SetPath(mapPath);
-	}
-
-	private void HighlightCell(Vector2I mapCoords)
-	{
-		// Not implemented yet
 	}
 
 	private IEnumerable<Vector2I> GetOccupiedCells()
