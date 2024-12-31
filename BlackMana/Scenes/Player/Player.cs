@@ -114,10 +114,10 @@ internal sealed partial class Player
     
     public Action GetAnimation(Vector2 nextMapPosition)
     {
-        var deltaX = nextMapPosition.X - Position.X;
-        var deltaY = nextMapPosition.Y - Position.Y;
+        var direction = (nextMapPosition - Position).Normalized();
 
-        return (deltaX, deltaY) switch
+
+        return (direction.X, direction.Y) switch
         {
             (0, < 0) => PlayWalkN, (0, > 0) => PlayWalkS, (< 0, 0) => PlayWalkW,
             (> 0, 0) => PlayWalkE, (> 0, < 0) => PlayWalkNE, (< 0, < 0) => PlayWalkNW,
