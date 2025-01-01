@@ -50,10 +50,10 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 		
 		var mouseMapPosition = LocalToMap(GetLocalMousePosition());
 
-		if (@event.IsActionPressed(ActionProvider.LeftMouseButton))
+		if (_mouseController.IsMouseLeftClick(@event))
 			SelectCell(mouseMapPosition);
 
-		if (@event is InputEventMouseMotion)
+		if (_mouseController.IsMouseHover(@event))
 			_tileDataModulator.HighlightCell(mouseMapPosition);
 	}
 	

@@ -5,10 +5,8 @@
     - When a player is select, outline variant appears
     - Sets the active selectable
     - From now on, every mouse click on the grid affects the active selectable
-- [ ] **BM-2**: Change the hue of a tile on hover, so that it is easier to
-  determine what the affected selectable is
-    - Tile hue should be changed programatically to avoid having to add
-      too many alternative textures
+- [ ] **BM-2**: Change the hue of a tile on hover, so that it is easier to determine what the affected selectable is
+    - Tile hue should be changed programatically to avoid having to add too many alternative textures
     - Add the ability to double-click on a tile to confirm movement
 - [X] **BM-3**: Implement scrollable camera that follows active selectable and move it to separate
 scene
@@ -24,7 +22,7 @@ scene
 - [X] **BM-13**: Move assets to separate folders
 - [X] **BM-14**: Prevent switching selectables while another selectable is moving
 - [ ] **BM-15**: Review whether I can put `MoveByPath` and `Move` code to `IMovable` from `Player` 
-- [ ] **BM-16**: `GetAnimation(Vector2 nextMapPosition)`: Move this code to some kind of an `AnimationResolver`; does not belong to the player class
+- [ ] **BM-16**: `GetAnimation(Vector2 nextMapPosition)`: Move this code to some kind of `AnimationResolver`; does not belong to the player class
 - [ ] **BM-17**: Implement the preview of the path
   - It is indicated by a dot on the tile that will be traversed
   - The last tile is additionally highlighted

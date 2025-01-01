@@ -1,9 +1,11 @@
+using BlackMana.Common.Actions;
 using Godot;
 
 namespace BlackMana.AutoLoads;
 
 internal interface IMouseController
 {
+    bool IsMouseLeftClick(InputEvent inputEvent);
     bool IsMouseClick(InputEvent inputEvent);
     bool IsMouseHover(InputEvent inputEvent);
     void PrintMouseDebugInformation();
@@ -22,6 +24,9 @@ internal sealed partial class MouseController : Node2D, IMouseController
     
     public bool IsMouseClick(InputEvent inputEvent)
         => inputEvent is InputEventMouseButton && inputEvent.IsPressed();
+
+    public bool IsMouseLeftClick(InputEvent inputEvent)
+        => inputEvent.IsActionPressed(ActionProvider.LeftMouseButton);
     
     public bool IsMouseHover(InputEvent inputEvent)
         => inputEvent is InputEventMouseMotion;
