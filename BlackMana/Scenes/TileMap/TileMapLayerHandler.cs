@@ -11,7 +11,7 @@ namespace BlackMana.Scenes.TileMap;
 
 internal sealed partial class TileMapLayerHandler : TileMapLayer
 {
-	private IPathfinder _aStarGridProvider;
+	private IPathfinder _pathFinder;
 	private SelectableManager _selectableManager;
 	private IMouseController _mouseController;
 	private CustomSignals _customSignals;
@@ -20,7 +20,7 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 	public override void _Ready()
 	{
 		_tileDataModulator = new TileDataModulator(this);
-		_aStarGridProvider = new AStarGridPathfinder(GetUsedRect(), TileSet.TileSize);
+		_pathFinder = new AStarGridPathfinder(GetUsedRect(), TileSet.TileSize);
 		_mouseController = GetNode<IMouseController>(MouseController.ScenePath);
 		_customSignals = GetNode<CustomSignals>(CustomSignals.ScenePath);
 		_selectableManager = GetNode<SelectableManager>($"%{nameof(SelectableManager)}");
@@ -48,19 +48,36 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 		if (!(_mouseController.IsMouseClick(@event) || _mouseController.IsMouseHover(@event)))
 			return;
 		
-		var mousePosition = GetLocalMousePosition();
+		var mouseMapPosition = LocalToMap(GetLocalMousePosition());
 
 		if (@event.IsActionPressed(ActionProvider.LeftMouseButton))
-			_tileDataModulator.HighlightCell(LocalToMap(mousePosition));
+			SelectCell(mouseMapPosition);
+
+		if (@event is InputEventMouseMotion)
+			_tileDataModulator.HighlightCell(mouseMapPosition);
+	}
+	
+	public override void _TileDataRuntimeUpdate(Vector2I coords, TileData tileData)
+	{
+		if (!GetOccupiedCells().Contains(coords))
+		{
+			_tileDataModulator.ApplyHighlight(coords, tileData);
+		} 
 	}
 
+	public override bool _UseTileDataRuntimeUpdate(Vector2I coords)
+	{
+		return _tileDataModulator.ShouldModulate(coords);
+	}
+	
 	private void SelectCell(Vector2I mapCoords)
 	{
-		var selectableAtCoords = _selectableManager.SelectByCoords(mapCoords);
-		if (selectableAtCoords is not null || !_selectableManager.HasActive())
+		_selectableManager.SelectByCoords(mapCoords);
+		if (_selectableManager.GetActive() is null)
 			return;
-		
-		var mapPath = _aStarGridProvider.GetPathWithDisabledNodes(
+
+		// Todo Move this to IMovable `TraversePath()`
+		var mapPath = _pathFinder.GetPathWithDisabledNodes(
 			_selectableManager.GetActive().MapPosition, mapCoords, GetOccupiedCells());
 		var activeSelectable = (Player.Player)_selectableManager.GetActive();
 		activeSelectable.SetPath(mapPath);

@@ -18,16 +18,14 @@ internal class TileDataModulator
         _tileMapLayer.NotifyRuntimeTileDataUpdate();
     }
 
-    private bool IsHighlighted(Vector2I coords)
+    public bool ShouldModulate(Vector2I coords)
     {
         return _highlightedCell.HasValue && _highlightedCell.Value == coords;
     }
 
     public void ApplyHighlight(Vector2I coords, TileData tileData)
     {
-        if (IsHighlighted(coords))
-        {
-            tileData.Modulate = new Color(0.5f, 0.5f, 0.5f, 0.5f);
-        }
+        if (ShouldModulate(coords))
+            tileData.Modulate = tileData.Modulate.Darkened(0.15f);
     }
 }

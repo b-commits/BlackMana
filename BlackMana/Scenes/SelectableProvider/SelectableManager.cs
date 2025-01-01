@@ -58,14 +58,40 @@ internal sealed partial class SelectableManager : Node2D, ISelectableManager
         return Select(selectable);
     }
 
+    private void DeselectCurrentSelectable()
+    {
+        GetActive().Deselect();  
+    } 
+
     private ISelectable Select(ISelectable selectable)
     {
-        if (GetActive() == selectable)
-            return selectable;
-        
-        DeselectCurrentSelectable();
+        if (!HasActive())
+            return Activate(selectable);
+    
+        var activeSelectable = GetActive();
+
+        return activeSelectable == selectable 
+            ? DeselectCurrent() 
+            : SwitchActiveSelectable(selectable, activeSelectable);
+    }
+
+    private static ISelectable Activate(ISelectable selectable)
+    {
         selectable.Select();
         return selectable;
+    }
+
+    private ISelectable DeselectCurrent()
+    {
+        DeselectCurrentSelectable();
+        return null;
+    }
+
+    private ISelectable SwitchActiveSelectable(ISelectable newSelectable, ISelectable currentSelectable)
+    {
+        currentSelectable.Deselect();
+        newSelectable.Select();
+        return newSelectable;
     }
     
     public IEnumerable<ISelectable> GetAll() => _selectables;
@@ -73,9 +99,11 @@ internal sealed partial class SelectableManager : Node2D, ISelectableManager
     public IEnumerable<ISelectable> GetInactive()
         => _selectables.Where(x => !x.Selected).ToList();
     
-    public bool HasActive() => _selectables.Exists(x => x.Selected);
+    public bool HasActive() 
+        => _selectables.Exists(x => x.Selected);
 
-    public ISelectable GetActive() => _selectables.SingleOrDefault(x => x.Selected);
+    public ISelectable GetActive() 
+        => _selectables.SingleOrDefault(x => x.Selected);
 
-    private void DeselectCurrentSelectable() => GetActive().Deselect();
+
 }
