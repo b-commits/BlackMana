@@ -27,7 +27,7 @@ scene
   - It is indicated by a dot on the tile that will be traversed
   - The last tile is additionally highlighted
 - [ ] **BM-18**: Implement character speed; i.e. how many tiles they can move 
-- [ ] **BM-19**: Implement highlighting tiles that can be moved to by a selectable
+- [X] **BM-19**: Implement highlighting tiles that can be moved to by a selectable
 ---
 
 ### Bugs

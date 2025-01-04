@@ -52,14 +52,16 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 
 		if (_mouseController.IsMouseLeftClick(@event))
 			SelectCell(mouseMapPosition);
+		
+		var tileData = GetCellTileData(mouseMapPosition);
 
 		if (_mouseController.IsMouseHover(@event))
-			_tileDataModulator.HighlightCell(mouseMapPosition);
+			_tileDataModulator.HighlightCell(mouseMapPosition, tileData);
 	}
 	
 	public override void _TileDataRuntimeUpdate(Vector2I coords, TileData tileData)
 	{
-		if (!GetOccupiedCells().Contains(coords))
+		if (!GetOccupiedCells().Contains(coords) && _selectableManager.HasActive())
 		{
 			_tileDataModulator.ApplyHighlight(coords, tileData);
 		} 
