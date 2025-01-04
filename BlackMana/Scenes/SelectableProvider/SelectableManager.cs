@@ -20,31 +20,23 @@ internal sealed partial class SelectableManager : Node2D, ISelectableManager
 
     public ISelectable SelectByCoords(Vector2I mapCoords)
     {
-        if (IsAnySelectableMoving())
-            return null;
-        
-        var selectable = _selectables.SingleOrDefault(x => x.MapPosition == mapCoords);
-        return selectable is null ? null : Select(selectable);
+        var selectableAtCoords = _selectables.SingleOrDefault(x => x.MapPosition == mapCoords);
+        return selectableAtCoords is null ? null : Select(selectableAtCoords);
     }
 
     private void SelectNext()
     {
-        if (IsAnySelectableMoving())
-            return;
-        
-        var currentSelectable = GetActive();
-        var currentIndex = _selectables.IndexOf(currentSelectable);
+        var currentSelectableIndex = _selectables.IndexOf(GetActive());
 
-        if (currentIndex + 1 < _selectables.Count)
-            SelectByIndex(currentIndex + 1);
+        if (currentSelectableIndex + 1 < _selectables.Count)
+            SelectByIndex(currentSelectableIndex + 1);
         else
-            Select(_selectables[0]);
+            SelectByIndex(0);
     }
 
     public bool IsAnySelectableMoving()
     {
-        var players = GetAll();
-        return players.OfType<Player.Player>().Any(player => player.IsMoving);
+        return _selectables.OfType<IMovable>().Any(x => x.IsMoving);
     }
 
     public void SetSelectables(List<ISelectable> selectables)
@@ -65,14 +57,15 @@ internal sealed partial class SelectableManager : Node2D, ISelectableManager
 
     private ISelectable Select(ISelectable selectable)
     {
+        if (IsAnySelectableMoving())
+            return null;
+        
         if (!HasActive())
             return Activate(selectable);
-    
-        var activeSelectable = GetActive();
 
-        return activeSelectable == selectable 
+        return GetActive() == selectable 
             ? DeselectCurrent() 
-            : SwitchActiveSelectable(selectable, activeSelectable);
+            : SwitchActiveSelectable(selectable);
     }
 
     private static ISelectable Activate(ISelectable selectable)
@@ -87,14 +80,12 @@ internal sealed partial class SelectableManager : Node2D, ISelectableManager
         return null;
     }
 
-    private ISelectable SwitchActiveSelectable(ISelectable newSelectable, ISelectable currentSelectable)
+    private ISelectable SwitchActiveSelectable(ISelectable newSelectable)
     {
-        currentSelectable.Deselect();
+        GetActive().Deselect();
         newSelectable.Select();
         return newSelectable;
     }
-    
-    public IEnumerable<ISelectable> GetAll() => _selectables;
     
     public IEnumerable<ISelectable> GetInactive()
         => _selectables.Where(x => !x.Selected).ToList();

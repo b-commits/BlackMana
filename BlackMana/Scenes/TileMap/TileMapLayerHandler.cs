@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using BlackMana.AutoLoads;
-using BlackMana.Common.Actions;
 using BlackMana.Common.AStarGridProvider;
 using BlackMana.Common.Interfaces;
 using BlackMana.Scenes.SelectableProvider;

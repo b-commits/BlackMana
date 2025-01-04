@@ -5,7 +5,7 @@ namespace BlackMana.Scenes.TileMap;
 
 internal class TileDataModulator
 {
-    private readonly Godot.Collections.Dictionary<Vector2I, TileData> _updatedCells = new();
+    private readonly Dictionary<Vector2I, TileData> _updatedCells = new();
     private readonly TileMapLayer _tileMapLayer;
     private KeyValuePair<Vector2I, TileData>? _lastHoveredOver;
 

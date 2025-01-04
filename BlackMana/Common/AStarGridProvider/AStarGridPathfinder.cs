@@ -6,7 +6,6 @@ namespace BlackMana.Common.AStarGridProvider;
 
 internal interface IPathfinder
 {
-    List<Vector2I> GetPath(Vector2I from, Vector2I to);
     List<Vector2I> GetPathWithDisabledNodes(Vector2I from, Vector2I to,
         IEnumerable<Vector2I> disabledPoints);
 }
@@ -27,7 +26,7 @@ internal sealed partial class AStarGridPathfinder : Node2D, IPathfinder
 
     public AStarGridPathfinder() { }
 
-    public List<Vector2I> GetPath(Vector2I from, Vector2I to)
+    private List<Vector2I> GetPath(Vector2I from, Vector2I to)
     {
         _path = _aStarGrid.GetIdPath(from, to).ToList();
         return _path;
@@ -37,7 +36,7 @@ internal sealed partial class AStarGridPathfinder : Node2D, IPathfinder
         IEnumerable<Vector2I> disabledPoints)
     {
         disabledPoints.ToList().ForEach(x => _aStarGrid.SetPointSolid(x));
-        _path = _aStarGrid.GetIdPath(from, to).ToList();
+        _path = GetPath(from, to).ToList();
         
         _aStarGrid.Update();
         return _path;
