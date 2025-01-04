@@ -14,7 +14,7 @@ internal class TileDataModulator
         _tileMapLayer = tileMapLayer;
     }
 
-    public void HighlightCell(Vector2I mapCoords, TileData tileData)
+    public void NotifyCellsUpdated(Vector2I mapCoords, TileData tileData)
     {
         _updatedCells.TryAdd(mapCoords, tileData);
         _lastHoveredOver = new KeyValuePair<Vector2I, TileData>(mapCoords, tileData);

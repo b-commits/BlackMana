@@ -55,7 +55,7 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 		var tileData = GetCellTileData(mouseMapPosition);
 
 		if (_mouseController.IsMouseHover(@event))
-			_tileDataModulator.HighlightCell(mouseMapPosition, tileData);
+			_tileDataModulator.NotifyCellsUpdated(mouseMapPosition, tileData);
 	}
 	
 	public override void _TileDataRuntimeUpdate(Vector2I coords, TileData tileData)
@@ -76,11 +76,10 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 		_selectableManager.SelectByCoords(mapCoords);
 		if (_selectableManager.GetActive() is null)
 			return;
-
-		// Todo Move this to IMovable `TraversePath()`
+		
 		var mapPath = _pathFinder.GetPathWithDisabledNodes(
 			_selectableManager.GetActive().MapPosition, mapCoords, GetOccupiedCells());
-		var activeSelectable = (Player.Player)_selectableManager.GetActive();
+		var activeSelectable = (IMovable)_selectableManager.GetActive();
 		activeSelectable.SetPath(mapPath);
 	}
 
@@ -89,13 +88,12 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 
 	private List<ISelectable> GetSeededPlayers()
 	{
-		var player = GetNode<ISelectable>("Player");
-		var companion = GetNode<ISelectable>("Player2");
+		var player = GetNode<ISelectable>($"{nameof(Player)}");
+		var companion = GetNode<ISelectable>($"{nameof(Player)}2");
 		player.MapPosition = new Vector2I(0, 1);
 		companion.MapPosition = new Vector2I(3, 1);
-		player.OnSelect();
-
-		player.Selected = true;
+		player.Select();
+		
 		return new List<ISelectable> { player, companion };
 	}
 }
