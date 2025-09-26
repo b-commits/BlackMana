@@ -131,14 +131,14 @@ internal sealed partial class Player
 
     #region Animations
 
-    private void PlayWalkSE() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSESelected;
-    private void PlayWalkSW() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSWSelected;
-    private void PlayWalkS() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSSelected;
-    private void PlayWalkNE() => GetAnimatedSprite().Animation = PlayerAnimations.WalkNESelected;
-    private void PlayWalkNW() => GetAnimatedSprite().Animation = PlayerAnimations.WalkNWSelected;
-    private void PlayWalkW() => GetAnimatedSprite().Animation = PlayerAnimations.WalkWSelected;
-    private void PlayWalkE() => GetAnimatedSprite().Animation = PlayerAnimations.WalkESelected;
-    private void PlayWalkN() => GetAnimatedSprite().Animation = PlayerAnimations.WalkNSelected;
+    private void PlayWalkSE() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedSouthEast;
+    private void PlayWalkSW() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedSouthWest;
+    private void PlayWalkS() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedSouth;
+    private void PlayWalkNE() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedNorthEast;
+    private void PlayWalkNW() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedNorthWest;
+    private void PlayWalkW() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedWest;
+    private void PlayWalkE() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedEast;
+    private void PlayWalkN() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedNorth;
     public void OnSelect() => GetAnimatedSprite().Animation = PlayerAnimations.IdleSelectedFrame;
     public void OnDeselect() => GetAnimatedSprite().Animation = PlayerAnimations.IdleFrame;
 

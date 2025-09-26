@@ -35,9 +35,12 @@ internal sealed partial class AStarGridPathfinder : Node2D, IPathfinder
     public List<Vector2I> GetPathWithDisabledNodes(Vector2I from, Vector2I to,
         IEnumerable<Vector2I> disabledPoints)
     {
-        disabledPoints.ToList().ForEach(x => _aStarGrid.SetPointSolid(x));
+        var disabledList = disabledPoints.ToList();
+        disabledList.ForEach(x => _aStarGrid.SetPointSolid(x));
+
         _path = GetPath(from, to).ToList();
         
+        disabledList.ForEach(x => _aStarGrid.SetPointSolid(x, false));
         _aStarGrid.Update();
         return _path;
     }
