@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Godot;
 using BlackMana.AutoLoads;
 using BlackMana.Common.Interfaces;
+using BlackMana.Common.Movement;
 
 namespace BlackMana.Scenes.Player;
 
@@ -19,10 +20,12 @@ internal sealed partial class Player
     public bool IsMoving { get; set; }
     private Tween MovementTween { get; set; }
     private ICustomSignals _customSignals;
+    private CharacterAnimationController _animationController;
 
     public override void _Ready()
     {
         _customSignals = GetNode<ICustomSignals>(CustomSignals.ScenePath);
+        _animationController = new CharacterAnimationController(GetAnimatedSprite());
         _customSignals.EmitRequestMove(new RequestMoveEvent { CurrentMapPosition = MapPosition });
     }
 
@@ -47,23 +50,9 @@ internal sealed partial class Player
         );
         Speed = 50.0F;
         Velocity = inputDirection * Speed;
-        
-        var walkActions = new Dictionary<Vector2, Action>
-        {
-            { new Vector2(0, 1), PlayWalkS },
-            { new Vector2(-1, 0), PlayWalkW },
-            { new Vector2(1, 0), PlayWalkE },
-            { new Vector2(0, -1), PlayWalkN },
-            { new Vector2(-1, -1), PlayWalkNW },
-            { new Vector2(1, -1), PlayWalkNE },
-            { new Vector2(-1, 1), PlayWalkSW },
-            { new Vector2(1, 1), PlayWalkSE }
-        };
-        
-        if (walkActions.ContainsKey(inputDirection))
-        {
-            walkActions[inputDirection].Invoke();
-        }
+
+        if (inputDirection != Vector2.Zero)
+            _animationController.PlayWalk(inputDirection);
 
         MoveAndSlide();
     }
@@ -108,39 +97,20 @@ internal sealed partial class Player
 
     public void ResolveAnimation(Vector2 nextMapPosition)
     {
-        var animation = GetAnimation(nextMapPosition);
-        animation();
+        var direction = (nextMapPosition - Position).Normalized();
+        _animationController.PlayWalk(direction);
     }
     
     public Action GetAnimation(Vector2 nextMapPosition)
     {
         var direction = (nextMapPosition - Position).Normalized();
-
-
-        return (direction.X, direction.Y) switch
-        {
-            (0, < 0) => PlayWalkN, (0, > 0) => PlayWalkS, (< 0, 0) => PlayWalkW,
-            (> 0, 0) => PlayWalkE, (> 0, < 0) => PlayWalkNE, (< 0, < 0) => PlayWalkNW,
-            (> 0, > 0) => PlayWalkSE, (< 0, > 0) => PlayWalkSW, _ => () => { }
-        };
+        return () => _animationController.PlayWalk(direction);
     }
 
     public void SetPath(List<Vector2I> path) => MapPath = path;
 
     private AnimatedSprite2D GetAnimatedSprite() => GetNode<AnimatedSprite2D>(nameof(AnimatedSprite2D));
 
-    #region Animations
-
-    private void PlayWalkSE() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedSouthEast;
-    private void PlayWalkSW() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedSouthWest;
-    private void PlayWalkS() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedSouth;
-    private void PlayWalkNE() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedNorthEast;
-    private void PlayWalkNW() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedNorthWest;
-    private void PlayWalkW() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedWest;
-    private void PlayWalkE() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedEast;
-    private void PlayWalkN() => GetAnimatedSprite().Animation = PlayerAnimations.WalkSelectedNorth;
-    public void OnSelect() => GetAnimatedSprite().Animation = PlayerAnimations.IdleSelectedFrame;
-    public void OnDeselect() => GetAnimatedSprite().Animation = PlayerAnimations.IdleFrame;
-
-    #endregion
+    public void OnSelect() => _animationController.OnSelect();
+    public void OnDeselect() => _animationController.OnDeselect();
 }

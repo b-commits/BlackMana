@@ -10,7 +10,7 @@ namespace BlackMana.Scenes.TileMap;
 
 internal sealed partial class TileMapLayerHandler : TileMapLayer
 {
-	private AStarGridPathfinder _pathFinder;
+	private IPathfinder _pathFinder;
 	private SelectableManager _selectableManager;
 	private IMouseController _mouseController;
 	private CustomSignals _customSignals;
@@ -91,7 +91,7 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 		player.MapPosition = new Vector2I(0, 1);
 		companion.MapPosition = new Vector2I(3, 1);
 		player.Select();
-		
+
 		return [player, companion];
 	}
 }
