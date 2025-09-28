@@ -10,7 +10,7 @@ namespace BlackMana.Scenes.TileMap;
 
 internal sealed partial class TileMapLayerHandler : TileMapLayer
 {
-	private IPathfinder _pathFinder;
+	private AStarGridPathfinder _pathFinder;
 	private SelectableManager _selectableManager;
 	private IMouseController _mouseController;
 	private CustomSignals _customSignals;
@@ -35,7 +35,7 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 
 	private void OnMoveRequested(RequestMoveEvent requestMoveEvent)
 	{
-		var activeSelectable = (Player.Player)_selectableManager.GetActive();  
+		var activeSelectable = (IMovable)_selectableManager.GetActive();  
 		activeSelectable.Move(MapToLocal(requestMoveEvent.NextMapPosition));
 	}
 
@@ -67,9 +67,7 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 	}
 
 	public override bool _UseTileDataRuntimeUpdate(Vector2I coords)
-	{
-		return _tileDataModulator.ShouldModulate(coords);
-	}
+		=> _tileDataModulator.ShouldModulate(coords);
 	
 	private void SelectCell(Vector2I mapCoords)
 	{
@@ -94,6 +92,6 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 		companion.MapPosition = new Vector2I(3, 1);
 		player.Select();
 		
-		return new List<ISelectable> { player, companion };
+		return [player, companion];
 	}
 }

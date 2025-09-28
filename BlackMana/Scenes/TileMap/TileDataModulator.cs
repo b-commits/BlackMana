@@ -3,22 +3,16 @@ using Godot;
 
 namespace BlackMana.Scenes.TileMap;
 
-internal class TileDataModulator
+internal class TileDataModulator(TileMapLayer tileMapLayer)
 {
     private readonly Dictionary<Vector2I, TileData> _updatedCells = new();
-    private readonly TileMapLayer _tileMapLayer;
     private KeyValuePair<Vector2I, TileData>? _lastHoveredOver;
-
-    public TileDataModulator(TileMapLayer tileMapLayer)
-    {
-        _tileMapLayer = tileMapLayer;
-    }
 
     public void NotifyCellsUpdated(Vector2I mapCoords, TileData tileData)
     {
         _updatedCells.TryAdd(mapCoords, tileData);
         _lastHoveredOver = new KeyValuePair<Vector2I, TileData>(mapCoords, tileData);
-        _tileMapLayer.NotifyRuntimeTileDataUpdate();
+        tileMapLayer.NotifyRuntimeTileDataUpdate();
     }
 
     public bool ShouldModulate(Vector2I coords)
