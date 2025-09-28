@@ -8,8 +8,7 @@ using BlackMana.Common.Movement;
 
 namespace BlackMana.Scenes.Player;
 
-internal sealed partial class Player
-    : CharacterBody2D, IMovable, ISelectable
+internal sealed partial class Player : CharacterBody2D, IMovable, ISelectable
 {
     [Export] public bool Selected { get; set; }
     [Export] public Vector2I MapPosition { get; set; }
@@ -67,7 +66,7 @@ internal sealed partial class Player
         _customSignals.EmitRequestMove(requestMoveEvent);
     }
 
-    public async void Move(Vector2 position)
+    public async Task Move(Vector2 position)
     {
         if (MapPath.Count == 0)
             return;
