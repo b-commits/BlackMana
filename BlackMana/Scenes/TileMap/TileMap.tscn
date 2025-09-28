@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://4m7g7lkvhv56" path="res://Scenes/TileMap/Assets/Sprite-0002.png" id="1_vqk2o"]
 [ext_resource type="Texture2D" uid="uid://cl3u6pi2mbvnq" path="res://Tilesheet.png" id="2_hdd8w"]
-[ext_resource type="Script" path="res://Scenes/TileMap/TileMapLayerHandler.cs" id="3_8lcpf"]
+[ext_resource type="Script" uid="uid://dsdgn678p40od" path="res://Scenes/TileMap/TileMapLayerHandler.cs" id="3_8lcpf"]
 [ext_resource type="PackedScene" uid="uid://ceefnkk6vcurv" path="res://Scenes/Player/Player.tscn" id="4_lr3yg"]
-[ext_resource type="Script" path="res://Scenes/Camera/Camera.cs" id="5_5r04t"]
+[ext_resource type="Script" uid="uid://grprw0u5gi3p" path="res://Scenes/Camera/Camera.cs" id="5_5r04t"]
 [ext_resource type="PackedScene" uid="uid://ct5ajt2ckgc0k" path="res://Scenes/Enemy/Enemy.tscn" id="6_pdbgu"]
 [ext_resource type="PackedScene" uid="uid://oqon1ti61qbp" path="res://Scenes/DialogueBox/DialogueBox.tscn" id="7_dpoox"]
 [ext_resource type="PackedScene" uid="uid://dufn8f5muqnfx" path="res://Scenes/SelectableProvider/SelectableManager.tscn" id="8_duhow"]
