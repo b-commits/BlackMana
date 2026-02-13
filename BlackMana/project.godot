@@ -25,6 +25,7 @@ config/icon="res://Tilesheet.png"
 CustomSignals="*res://AutoLoads/CustomSignals.cs"
 MouseController="*res://AutoLoads/MouseController.cs"
 DebugOverlay="*res://AutoLoads/DebugOverlay.cs"
+SfxManager="*res://AutoLoads/SfxManager.tscn"
 
 [display]
 

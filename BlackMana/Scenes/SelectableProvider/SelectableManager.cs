@@ -11,10 +11,12 @@ internal sealed partial class SelectableManager : Node2D
 {
     private List<ISelectable> _selectables;
     private ICustomSignals _customSignals;
+    private SfxManager _sfxManager;
 
     public override void _Ready()
     {
         _customSignals = GetNode<ICustomSignals>(CustomSignals.ScenePath);
+        _sfxManager = GetNode<SfxManager>(SfxManager.ScenePath);
     }
 
     public override void _Input(InputEvent @event)
@@ -55,14 +57,14 @@ internal sealed partial class SelectableManager : Node2D
     private void RegisterDebug()
     {
         var overlay = GetNode<DebugOverlay>(DebugOverlay.ScenePath);
-        overlay.Register("SelectableManager", () =>
+        overlay.Register(nameof(SelectableManager), () =>
         {
             var active = GetActive();
             return new Dictionary<string, string>
             {
-                ["Active"] = active is Node node ? node.Name : "none",
-                ["Total"] = _selectables?.Count.ToString() ?? "0",
-                ["AnyMoving"] = IsAnySelectableMoving().ToString()
+                [nameof(active)] = active is Node node ? node.Name : "none",
+                [nameof(_selectables.Count)] = _selectables?.Count.ToString() ?? "0",
+                [nameof(IsAnySelectableMoving)] = IsAnySelectableMoving().ToString()
             };
         });
     }
@@ -95,6 +97,7 @@ internal sealed partial class SelectableManager : Node2D
     {
         selectable.Select();
         _customSignals.EmitSelectionChanged(selectable.HealthPoints, true);
+        _sfxManager.PlaySelect();
         return selectable;
     }
 
@@ -102,6 +105,7 @@ internal sealed partial class SelectableManager : Node2D
     {
         DeselectCurrentSelectable();
         _customSignals.EmitSelectionChanged(0, false);
+        _sfxManager.PlayDeselect();
         return null;
     }
 
@@ -110,6 +114,7 @@ internal sealed partial class SelectableManager : Node2D
         GetActive().Deselect();
         newSelectable.Select();
         _customSignals.EmitSelectionChanged(newSelectable.HealthPoints, true);
+        _sfxManager.PlaySelect();
         return newSelectable;
     }
     

@@ -15,6 +15,7 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 	private IMouseController _mouseController;
 	private CustomSignals _customSignals;
 	private TileDataModulator _tileDataModulator;
+	private SfxManager _sfxManager;
 	private List<Vector2I> _pendingPath;
 	private Vector2I? _pendingDestination;
 
@@ -24,6 +25,7 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 		_pathFinder = new AStarGridPathfinder(GetUsedRect(), TileSet.TileSize);
 		_mouseController = GetNode<IMouseController>(MouseController.ScenePath);
 		_customSignals = GetNode<CustomSignals>(CustomSignals.ScenePath);
+		_sfxManager = GetNode<SfxManager>(SfxManager.ScenePath);
 		_selectableManager = GetNode<SelectableManager>($"%{nameof(SelectableManager)}");
 		_selectableManager.SetSelectables(GetSeededPlayers());
 		RegisterEventHandlers();
@@ -110,6 +112,7 @@ internal sealed partial class TileMapLayerHandler : TileMapLayer
 
 		var activeSelectable = (IMovable)_selectableManager.GetActive();
 		activeSelectable.SetPath(_pendingPath);
+		_sfxManager.PlayConfirmMove();
 		ClearPendingPath();
 	}
 

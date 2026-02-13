@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://blwnd0084o6xa"]
+
+[ext_resource type="Script" uid="uid://ccsqgcb43lxlo" path="res://AutoLoads/SfxManager.cs" id="1_sfx"]
+[ext_resource type="AudioStream" uid="uid://bttkin7dpecqr" path="res://AutoLoads/Hold_ping_SFX.ogg" id="2_na0dg"]
+
+[node name="SfxManager" type="Node" unique_id=556799372]
+script = ExtResource("1_sfx")
+SelectSound = ExtResource("2_na0dg")

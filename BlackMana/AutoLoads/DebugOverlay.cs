@@ -11,7 +11,9 @@ internal sealed partial class DebugOverlay : CanvasLayer
     internal const string ScenePath = $"{ScenePaths.Root}/{nameof(DebugOverlay)}";
 
     private readonly Dictionary<string, Func<Dictionary<string, string>>> _providers = new();
+    private readonly Dictionary<string, Action<string>> _commands = new();
     private RichTextLabel _label;
+    private LineEdit _input;
     private PanelContainer _panel;
     private bool _visible;
 
@@ -19,6 +21,7 @@ internal sealed partial class DebugOverlay : CanvasLayer
     {
         Layer = 100;
         BuildUi();
+        RegisterBuiltInCommands();
         _panel.Visible = false;
     }
 
@@ -29,6 +32,9 @@ internal sealed partial class DebugOverlay : CanvasLayer
 
         _visible = !_visible;
         _panel.Visible = _visible;
+
+        if (_visible)
+            _input.GrabFocus();
     }
 
     public override void _Process(double delta)
@@ -62,6 +68,51 @@ internal sealed partial class DebugOverlay : CanvasLayer
     public void Unregister(string name)
         => _providers.Remove(name);
 
+    public void RegisterCommand(string name, Action<string> handler)
+        => _commands[name] = handler;
+
+    private void RegisterBuiltInCommands()
+    {
+        RegisterCommand("fps", value => Engine.MaxFps = int.Parse(value));
+        RegisterCommand("timescale", value => Engine.TimeScale = float.Parse(value));
+    }
+
+    private void OnCommandSubmitted(string text)
+    {
+        _input.Clear();
+
+        var separatorIndex = text.IndexOf('=');
+        if (separatorIndex < 1)
+        {
+            LogResponse("[color=red]Invalid format. Use: command=value[/color]");
+            return;
+        }
+
+        var command = text[..separatorIndex].Trim().ToLower();
+        var value = text[(separatorIndex + 1)..].Trim();
+
+        if (!_commands.TryGetValue(command, out var handler))
+        {
+            LogResponse($"[color=red]Unknown command: {command}[/color]");
+            return;
+        }
+
+        try
+        {
+            handler(value);
+            LogResponse($"[color=green]{command} = {value}[/color]");
+        }
+        catch (Exception ex)
+        {
+            LogResponse($"[color=red]Error: {ex.Message}[/color]");
+        }
+    }
+
+    private void LogResponse(string bbcodeText)
+    {
+        _label.AppendText($"\n{bbcodeText}\n");
+    }
+
     private static string Colorize(string value)
     {
         return value switch
@@ -93,8 +144,8 @@ internal sealed partial class DebugOverlay : CanvasLayer
         };
         _panel.AddThemeStyleboxOverride("panel", styleBox);
 
-        var margin = new MarginContainer();
-        _panel.AddChild(margin);
+        var vbox = new VBoxContainer();
+        _panel.AddChild(vbox);
 
         _label = new RichTextLabel
         {
@@ -106,7 +157,17 @@ internal sealed partial class DebugOverlay : CanvasLayer
         };
         _label.AddThemeFontSizeOverride("normal_font_size", 13);
         _label.AddThemeFontSizeOverride("mono_font_size", 13);
-        margin.AddChild(_label);
+        vbox.AddChild(_label);
+
+        _input = new LineEdit
+        {
+            PlaceholderText = "command=value",
+            CustomMinimumSize = new Vector2(320, 0),
+            CaretBlink = true
+        };
+        _input.AddThemeFontSizeOverride("font_size", 13);
+        _input.TextSubmitted += OnCommandSubmitted;
+        vbox.AddChild(_input);
 
         AddChild(_panel);
     }

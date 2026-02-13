@@ -35,13 +35,13 @@ internal abstract partial class MovableCharacter : CharacterBody2D, IMovable, IS
         var overlay = GetNode<DebugOverlay>(DebugOverlay.ScenePath);
         overlay.Register(Name, () => new Dictionary<string, string>
         {
-            ["MapPosition"] = MapPosition.ToString(),
-            ["Selected"] = Selected.ToString(),
-            ["IsMoving"] = IsMoving.ToString(),
-            ["HP"] = HealthPoints.ToString(),
-            ["Path"] = MapPath is { Count: > 0 }
+            [nameof(MapPosition)] = MapPosition.ToString(),
+            [nameof(Selected)] = Selected.ToString(),
+            [nameof(IsMoving)] = IsMoving.ToString(),
+            [nameof(HealthPoints)] = HealthPoints.ToString(),
+            [nameof(MapPath)] = MapPath is { Count: > 0 }
                 ? string.Join(" → ", MapPath.Select(p => p.ToString()))
-                : "none"
+                : string.Empty
         });
     }
 
