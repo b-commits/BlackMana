@@ -7,7 +7,7 @@ using Godot;
 
 namespace BlackMana.Scenes.SelectableProvider;
 
-internal sealed partial class SelectableManager : Node2D, ISelectableManager
+internal sealed partial class SelectableManager : Node2D
 {
     private List<ISelectable> _selectables;
     private ICustomSignals _customSignals;
@@ -49,6 +49,22 @@ internal sealed partial class SelectableManager : Node2D, ISelectableManager
     public void SetSelectables(List<ISelectable> selectables)
     {
         _selectables = selectables;
+        RegisterDebug();
+    }
+
+    private void RegisterDebug()
+    {
+        var overlay = GetNode<DebugOverlay>(DebugOverlay.ScenePath);
+        overlay.Register("SelectableManager", () =>
+        {
+            var active = GetActive();
+            return new Dictionary<string, string>
+            {
+                ["Active"] = active is Node node ? node.Name : "none",
+                ["Total"] = _selectables?.Count.ToString() ?? "0",
+                ["AnyMoving"] = IsAnySelectableMoving().ToString()
+            };
+        });
     }
 
     public ISelectable SelectByIndex(int index)

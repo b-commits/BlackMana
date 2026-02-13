@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BlackMana.AutoLoads;
 using BlackMana.Common.Interfaces;
@@ -26,6 +27,22 @@ internal abstract partial class MovableCharacter : CharacterBody2D, IMovable, IS
     {
         CustomSignals = GetNode<ICustomSignals>(AutoLoads.CustomSignals.ScenePath);
         AnimationController = CreateAnimationController();
+        RegisterDebug();
+    }
+
+    private void RegisterDebug()
+    {
+        var overlay = GetNode<DebugOverlay>(DebugOverlay.ScenePath);
+        overlay.Register(Name, () => new Dictionary<string, string>
+        {
+            ["MapPosition"] = MapPosition.ToString(),
+            ["Selected"] = Selected.ToString(),
+            ["IsMoving"] = IsMoving.ToString(),
+            ["HP"] = HealthPoints.ToString(),
+            ["Path"] = MapPath is { Count: > 0 }
+                ? string.Join(" → ", MapPath.Select(p => p.ToString()))
+                : "none"
+        });
     }
 
     public override void _Process(double delta)

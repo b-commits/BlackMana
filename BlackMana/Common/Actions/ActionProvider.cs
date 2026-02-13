@@ -7,4 +7,5 @@ internal static class ActionProvider
     public const string MiddleMouseButton = "MiddleMouseButton";
     public const string ShiftLeftMouseButton = "ShiftLeftMouseButton";
     public const string KeyR = "KeyR";
+    public const string ToggleDebug = "ToggleDebug";
 }
