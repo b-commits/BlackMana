@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://dl06w3s4r0tkw"]
+[gd_scene load_steps=12 format=4 uid="uid://dl06w3s4r0tkw"]
 
 [ext_resource type="Texture2D" uid="uid://4m7g7lkvhv56" path="res://Scenes/TileMap/Assets/Sprite-0002.png" id="1_vqk2o"]
 [ext_resource type="Texture2D" uid="uid://cl3u6pi2mbvnq" path="res://Tilesheet.png" id="2_hdd8w"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://ct5ajt2ckgc0k" path="res://Scenes/Enemy/Enemy.tscn" id="6_pdbgu"]
 [ext_resource type="PackedScene" uid="uid://oqon1ti61qbp" path="res://Scenes/DialogueBox/DialogueBox.tscn" id="7_dpoox"]
 [ext_resource type="PackedScene" uid="uid://dufn8f5muqnfx" path="res://Scenes/SelectableProvider/SelectableManager.tscn" id="8_duhow"]
-[ext_resource type="PackedScene" path="res://Scenes/HealthBar/HealthBar.tscn" id="9_hbar"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2alp8"]
 resource_name = "ManaTileAnimation"
@@ -85,5 +84,3 @@ offset_bottom = -36.0
 
 [node name="SelectableManager" parent="." instance=ExtResource("8_duhow")]
 unique_name_in_owner = true
-
-[node name="HealthBar" parent="." instance=ExtResource("9_hbar")]
