@@ -6,6 +6,7 @@ internal interface ICustomSignals
 {
     void EmitRequestMove(RequestMoveEvent requestMoveEvent);
     void EmitPrintMapPosition(Vector2 localPosition);
+    void EmitSelectionChanged(int healthPoints, bool hasSelection);
 }
 
 internal sealed partial class CustomSignals : Node, ICustomSignals
@@ -14,12 +15,16 @@ internal sealed partial class CustomSignals : Node, ICustomSignals
 
     [Signal] public delegate void RequestMoveEventHandler(RequestMoveEvent requestMoveEvent);
     [Signal] public delegate void PrintMapPositionEventHandler(Vector2 localPosition);
-    
+    [Signal] public delegate void SelectionChangedEventHandler(int healthPoints, bool hasSelection);
+
     public void EmitRequestMove(RequestMoveEvent requestMoveEvent)
         => EmitSignal(SignalName.RequestMove, requestMoveEvent);
 
     public void EmitPrintMapPosition(Vector2 localPosition)
         => EmitSignal(SignalName.PrintMapPosition, localPosition);
+
+    public void EmitSelectionChanged(int healthPoints, bool hasSelection)
+        => EmitSignal(SignalName.SelectionChanged, healthPoints, hasSelection);
 }
 
 internal sealed partial class RequestMoveEvent : GodotObject

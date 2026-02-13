@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using BlackMana.AutoLoads;
 using BlackMana.Common.Actions;
 using BlackMana.Common.Interfaces;
 using Godot;
@@ -9,6 +10,12 @@ namespace BlackMana.Scenes.SelectableProvider;
 internal sealed partial class SelectableManager : Node2D, ISelectableManager
 {
     private List<ISelectable> _selectables;
+    private ICustomSignals _customSignals;
+
+    public override void _Ready()
+    {
+        _customSignals = GetNode<ICustomSignals>(CustomSignals.ScenePath);
+    }
 
     public override void _Input(InputEvent @event)
     {
@@ -68,15 +75,17 @@ internal sealed partial class SelectableManager : Node2D, ISelectableManager
             : SwitchActiveSelectable(selectable);
     }
 
-    private static ISelectable Activate(ISelectable selectable)
+    private ISelectable Activate(ISelectable selectable)
     {
         selectable.Select();
+        _customSignals.EmitSelectionChanged(selectable.HealthPoints, true);
         return selectable;
     }
 
     private ISelectable DeselectCurrent()
     {
         DeselectCurrentSelectable();
+        _customSignals.EmitSelectionChanged(0, false);
         return null;
     }
 
@@ -84,6 +93,7 @@ internal sealed partial class SelectableManager : Node2D, ISelectableManager
     {
         GetActive().Deselect();
         newSelectable.Select();
+        _customSignals.EmitSelectionChanged(newSelectable.HealthPoints, true);
         return newSelectable;
     }
     

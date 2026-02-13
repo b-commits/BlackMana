@@ -13,6 +13,7 @@ internal sealed partial class Player : CharacterBody2D, IMovable, ISelectable
     [Export] public bool Selected { get; set; }
     [Export] public Vector2I MapPosition { get; set; }
     [Export] public float Speed { get; set; } = 75.0F;
+    [Export] public int HealthPoints { get; set; } = 100;
     [Export] public float AnimationTimeOffset { get; set; } = 0.5F;
 
     public List<Vector2I> MapPath { get; set; }

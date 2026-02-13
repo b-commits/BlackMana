@@ -6,6 +6,7 @@ internal interface ISelectable
 {
     public bool Selected { get; set; }
     public Vector2I MapPosition { get; set; }
+    public int HealthPoints { get; set; }
     public void OnSelect();
     public void OnDeselect();
 
